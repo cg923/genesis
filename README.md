@@ -11,4 +11,4 @@ speed themselves up, or scramble their opponent's controls.  Each special abilit
 Lastly, powerups will occasionally appear and the player who reaches it first gains its benefit...
 or suffers its punishment!</p>
 
-<img src="images/sketch.png" alt="Wireframe sketch of the game" />
+<img src="images/sketch.jpg" alt="Wireframe sketch of the game" />
