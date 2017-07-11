@@ -12,8 +12,8 @@ class Cell {
 		// Create HTML element and add it to the DOM.
 		this.htmlElement = document.createElement('div');
 		this.htmlElement.classList.add('cell');
-		this.htmlElement.style.left = 20 * this.x;
-		this.htmlElement.style.top = 20 * this.y;
+		this.htmlElement.style.left = (40 * this.x) + "px";
+		this.htmlElement.style.top = (40 * this.y) + "px";
 		let grid = document.getElementById('grid');
 		grid.appendChild(this.htmlElement);
 	}
@@ -32,8 +32,8 @@ class Grid {
 		// TO DO - I don't actually know if I need this.
 		this.game = game;
 
-		this.widthInCells = 40;
-		this.heightInCells = 30;
+		this.widthInCells = 20;
+		this.heightInCells = 15;
 
 		// HTML element
 		this.htmlElement = document.getElementById('grid');
@@ -41,17 +41,23 @@ class Grid {
 		// A 2D array containing all game cells.
 		this.cells = [];
 
+		// Cells to set to "grass" for initial game state.
+		this.grassCells = [[0,1],[0,2]];
+
 		this.populate();
 	}
 	populate() {
 		/* Populate this.cells with widthInCells (x)
 		 * by heightInCells(y) cells. */
-		for(let i = 1; i < this.widthInCells; i++) {
-			this.cells[i-1] = [];
-			for(let j = 1; j < this.heightInCells; j++) {
-				this.cells[i-1][j-1] = new Cell(i-1, j-1);
+		for(let x = 1; x < this.widthInCells + 1; x++) {
+			this.cells[x-1] = [];
+			for(let y = 1; y < this.heightInCells + 1; y++) {
+				this.cells[x-1][y-1] = new Cell(x-1, y-1);
 			}
 		}
+
+		// Create starting "Island"
+		//for(let )
 	}
 }
 
