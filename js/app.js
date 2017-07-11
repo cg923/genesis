@@ -19,6 +19,16 @@ class Cell {
 	}
 	changeTypeTo(newType) {
 		this.type = newType;
+
+		if(this.type === 'empty') {
+			this.htmlElement.classList.remove('grass');
+			this.htmlElement.classList.add('empty');
+		} else if(this.type === 'grass') {
+			this.htmlElement.classList.remove('empty');
+			this.htmlElement.classList.add('grass');
+		} else {
+			console.log("invalid cell type!");
+		}
 	}
 }
 
@@ -42,7 +52,17 @@ class Grid {
 		this.cells = [];
 
 		// Cells to set to "grass" for initial game state.
-		this.grassCells = [[0,1],[0,2]];
+		this.grassCells = [[8,5],
+							[9,5],
+							[10,5],
+							[7,6],
+							[8,6],
+							[9,6],
+							[10,6],
+							[11,6],
+							[8,7],
+							[9,7],
+							[10,7]];
 
 		this.populate();
 	}
@@ -57,7 +77,9 @@ class Grid {
 		}
 
 		// Create starting "Island"
-		//for(let )
+		for(let i = 0; i < this.grassCells.length; i++) {
+			this.cells[this.grassCells[i][0]][this.grassCells[i][1]].changeTypeTo('grass');
+		}
 	}
 }
 
