@@ -7,19 +7,21 @@ function Game() {
 	this.ctx = this.canvas.getContext('2d');
 
 	// Variables.
-	this.running = false;
+	this.self = this;
+	this.running = true;
 	
-	// Execute.
+	// Setup.
 	this.setup();
 }
 
 Game.prototype.setup = function() {
+	let game = this;
 
 	// Event listeners.
 	document.addEventListener("keypress", function(element) {
 		switch(element.key) {
 			case 'w':
-				console.log('yo');
+				game.running = false;
 				break;
 			default:
 				break;
@@ -27,19 +29,19 @@ Game.prototype.setup = function() {
 	});
 
 	// Game loop.
-	this.interval = setInterval(this.run, 50);
+	this.interval = setInterval(this.run.bind(this), 50);
 }
 
 Game.prototype.run = function() {
 
+	console.log('hi');
+
 	// If the game has finished, halt game loop.
 	if(!this.running) {
+		console.log('stop');
 		clearInterval(this.interval);
 		return;
 	}
-
-	console.log('hi');
-
 }
 
 Game.prototype.draw = function() {
@@ -51,4 +53,3 @@ Game.prototype.update = function() {
 }
 
 var game = new Game();
-game.run();
