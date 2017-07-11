@@ -3,7 +3,9 @@
 function Game() {
 
 	// Canvas set up
-	this.canvas = document.getElementById('arena');
+	this.canvas = document.getElementById('canvas');
+	this.canvas.width = 800;
+	this.canvas.height = 600;
 	this.ctx = this.canvas.getContext('2d');
 
 	// Variables.
@@ -18,10 +20,10 @@ Game.prototype.setup = function() {
 	let game = this;
 
 	// Event listeners.
-	document.addEventListener("keypress", function(element) {
+	document.addEventListener('keydown', function(element) {
 		switch(element.key) {
 			case 'w':
-				game.running = false;
+				console.log('hi');
 				break;
 			default:
 				break;
@@ -47,10 +49,15 @@ Game.prototype.run = function() {
 
 Game.prototype.draw = function() {
 
+	// Clear before drawing.
+	this.ctx.clearRect( 0, 0, this.canvas.width, this.canvas.height);
+
+	var image = document.getElementById('player-image');
+	this.ctx.drawImage(image, 20, 20);
 }
 
 Game.prototype.update = function() {
-	console.log('hi');
+	//console.log('hi');
 }
 
 var game = new Game();
