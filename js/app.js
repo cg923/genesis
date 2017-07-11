@@ -1,23 +1,24 @@
 
 // Game class
-function Game() {
+class Game {
+	constructor() {
+		// Canvas set up
+		this.canvas = document.getElementById('canvas');
+		this.canvas.width = 800;
+		this.canvas.height = 600;
+		this.ctx = this.canvas.getContext('2d');
 
-	// Canvas set up
-	this.canvas = document.getElementById('canvas');
-	this.canvas.width = 800;
-	this.canvas.height = 600;
-	this.ctx = this.canvas.getContext('2d');
+		// Variables.
+		this.self = this;
+		this.running = true;
 
-	// Variables.
-	this.self = this;
-	this.running = true;
-
-	// Setup.
-	this.setup();
+		// Setup.
+		this.setup();
+	}
 }
 
 Game.prototype.setup = function() {
-	let game = this;
+	//let game = this;
 
 	// Event listeners.
 	document.addEventListener('keydown', function(element) {
@@ -57,7 +58,7 @@ Game.prototype.draw = function() {
 }
 
 Game.prototype.update = function() {
-	//console.log('hi');
+
 }
 
 var game = new Game();
