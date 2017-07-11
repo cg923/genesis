@@ -11,6 +11,8 @@ speed themselves up, or scramble their opponent's controls.  Each special abilit
 Lastly, powerups will occasionally appear and the player who reaches it first gains its benefit...
 or suffers its punishment!</p>
 
+<p><a href="https://trello.com/b/7Y9F5VyD/map-game">Corey's Trello Board</a></p>
+
 <h2>Initial idea wireframe</h2>
 <img src="images/sketch.jpg" alt="Wireframe sketch of the game" width = 600/>
 
