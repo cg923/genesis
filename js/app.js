@@ -31,16 +31,15 @@ class Grid {
 
 		this.populate();
 	}
-	populate {
+	populate() {
 		/* Populate this.cells with widthInCells (x)
 		 * by heightInCells(y) cells. */
 		for(let i = 1; i < this.widthInCells; i++) {
+			this.cells[i-1] = [];
 			for(let j = 1; j < this.heightInCells; j++) {
 				this.cells[i-1][j-1] = new Cell(i-1, j-1);
 			}
 		}
-
-		console.log(this.cells);
 	}
 }
 
@@ -80,6 +79,8 @@ class Game {
 
 		// Creates game loop which will fire every 50ms.
 		this.interval = setInterval(this.run.bind(this), 50);
+
+		this.grid = new Grid(this);
 	}
 	run() {
 		// If the game has finished, halt game loop.
@@ -93,7 +94,7 @@ class Game {
 		this.draw();	
 	}
 	update() {
-		console.log('hi');
+
 	}
 	draw() {
 		// Clear before drawing.
