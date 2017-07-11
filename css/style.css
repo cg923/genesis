@@ -1,6 +1,20 @@
 
+/* Site objects */
+* {
+	margin: 0;
+	padding: 0;
+}
+header {
+	display: block;
+	width: 100%;
+	height: 50px;
+
+	background: blue;
+}
+
 /* Game objects */
-#canvas {
+#game-board {
+	margin: 0 auto;
 	width: 800px;
 	height: 600px;
 	background: gray;
@@ -8,6 +22,15 @@
 
 .grid {
 	background: black;
-	width: 100%;
-	height: 100%;
+	width: 800px;
+	height: 600px;
+}
+
+.cell {
+	position: relative;
+	width: 32px;
+	height: 32px;
+
+	background: black;
+	border: 1px solid white;
 }

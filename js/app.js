@@ -12,6 +12,8 @@ class Cell {
 		// Create HTML element and add it to the DOM.
 		this.htmlElement = document.createElement('div');
 		this.htmlElement.classList.add('cell');
+		this.htmlElement.style.left = 20 * this.x;
+		this.htmlElement.style.top = 20 * this.y;
 		let grid = document.getElementById('grid');
 		grid.appendChild(this.htmlElement);
 	}
@@ -30,8 +32,8 @@ class Grid {
 		// TO DO - I don't actually know if I need this.
 		this.game = game;
 
-		this.widthInCells = 20;
-		this.heightInCells = 15;
+		this.widthInCells = 40;
+		this.heightInCells = 30;
 
 		// HTML element
 		this.htmlElement = document.getElementById('grid');
@@ -87,6 +89,7 @@ class Game {
 		// Creates game loop which will fire every 50ms.
 		this.interval = setInterval(this.run.bind(this), 50);
 
+		// Create grid.
 		this.grid = new Grid(this);
 	}
 	run() {
@@ -104,8 +107,8 @@ class Game {
 
 	}
 	draw() {
-		// Clear before drawing.
-		this.ctx.clearRect( 0, 0, this.canvas.width, this.canvas.height);
+		/* TO DO - now that we've switched away from Canvas
+		 	this might be totally unnecessary */
 	}
 }
 
