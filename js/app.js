@@ -1,5 +1,53 @@
 
-// Game class
+/*  --------------------------------  */
+/* 				CELL CLASS 			  */
+/*  --------------------------------  */
+
+class Cell {
+	constructor(x, y, type = 'empty') {
+		this.x = x;
+		this.y = y;
+		this.type = type;
+	}
+	changeTypeTo(newType) {
+		this.type = newType;
+	}
+}
+
+/*  --------------------------------  */
+/* 				GRID CLASS 			  */
+/*  --------------------------------  */
+
+class Grid {
+	constructor(game) {
+		// Back pointer.
+		this.game = game;
+
+		this.widthInCells = 20;
+		this.heightInCells = 15;
+
+		// A 2D array containing all game cells.
+		this.cells = [];
+
+		this.populate();
+	}
+	populate {
+		/* Populate this.cells with widthInCells (x)
+		 * by heightInCells(y) cells. */
+		for(let i = 1; i < this.widthInCells; i++) {
+			for(let j = 1; j < this.heightInCells; j++) {
+				this.cells[i-1][j-1] = new Cell(i-1, j-1);
+			}
+		}
+
+		console.log(this.cells);
+	}
+}
+
+/*  --------------------------------  */
+/* 				GAME CLASS 			  */
+/*  --------------------------------  */
+
 class Game {
 	constructor() {
 		// Canvas set up
@@ -15,50 +63,42 @@ class Game {
 		// Setup.
 		this.setup();
 	}
-}
+	setup() {
+		// Keep track of Game object.
+		let game = this;
 
-Game.prototype.setup = function() {
-	//let game = this;
+		// Event listeners.
+		document.addEventListener('keydown', function(element) {
+			switch(element.key) {
+				case 'w':
+					game.running = false;;
+					break;
+				default:
+					break;
+			}
+		});
 
-	// Event listeners.
-	document.addEventListener('keydown', function(element) {
-		switch(element.key) {
-			case 'w':
-				console.log('hi');
-				break;
-			default:
-				break;
-		}
-	});
-
-	// Creates game loop which will fire every 50ms.
-	this.interval = setInterval(this.run.bind(this), 50);
-}
-
-Game.prototype.run = function() {
-
-	// If the game has finished, halt game loop.
-	if(!this.running) {
-		clearInterval(this.interval);
-		return;
+		// Creates game loop which will fire every 50ms.
+		this.interval = setInterval(this.run.bind(this), 50);
 	}
+	run() {
+		// If the game has finished, halt game loop.
+		if(!this.running) {
+			clearInterval(this.interval);
+			return;
+		}
 
-	// Update-draw loop.
-	this.update();
-	this.draw();
-}
-
-Game.prototype.draw = function() {
-
-	// Clear before drawing.
-	this.ctx.clearRect( 0, 0, this.canvas.width, this.canvas.height);
-
-	var image = document.getElementById('player-image');
-	this.ctx.drawImage(image, 20, 20);
-}
-
-Game.prototype.update = function() {
-
+		// Update-draw loop.
+		this.update();
+		this.draw();	
+	}
+	update() {
+		console.log('hi');
+	}
+	draw() {
+		// Clear before drawing.
+		this.ctx.clearRect( 0, 0, this.canvas.width, this.canvas.height);
+	}
 }
 
 var game = new Game();
