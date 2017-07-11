@@ -11,4 +11,9 @@ speed themselves up, or scramble their opponent's controls.  Each special abilit
 Lastly, powerups will occasionally appear and the player who reaches it first gains its benefit...
 or suffers its punishment!</p>
 
-<img src="images/sketch.jpg" alt="Wireframe sketch of the game" />
+<h2>Initial idea wireframe</h2>
+<img src="images/sketch.jpg" alt="Wireframe sketch of the game" width = 600/>
+
+<h2>Refined wireframe V.1</h2>
+<img src="images/sketch2.jpg" alt="Wireframe sketch of the game" width = 600/>
+
