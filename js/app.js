@@ -1,4 +1,5 @@
 
+const CELLSIZE = 40;
 /*  --------------------------------  */
 /* 				CELL CLASS 			  */
 /*  --------------------------------  */
@@ -12,8 +13,8 @@ class Cell {
 		// Create HTML element and add it to the DOM.
 		this.htmlElement = document.createElement('div');
 		this.htmlElement.classList.add('cell');
-		this.htmlElement.style.left = (40 * this.x) + "px";
-		this.htmlElement.style.top = (40 * this.y) + "px";
+		this.htmlElement.style.left = (CELLSIZE * this.x) + "px";
+		this.htmlElement.style.top = (CELLSIZE * this.y) + "px";
 		let grid = document.getElementById('grid');
 		grid.appendChild(this.htmlElement);
 	}
@@ -37,7 +38,7 @@ class Cell {
 /*  --------------------------------  */
 
 class Grid {
-	constructor(game) {
+	constructor(game,) {
 		// Back pointer.
 		// TO DO - I don't actually know if I need this.
 		this.game = game;
@@ -84,6 +85,37 @@ class Grid {
 }
 
 /*  --------------------------------  */
+/* 				PLAYER CLASS 		  */
+/*  --------------------------------  */
+
+class Player {
+	constructor(name, x, y, type) {
+		this.name = name;
+		this.type = type;
+
+		// Grid coords.
+		this.gridX = x * CELLSIZE;
+		this.gridY = y * CELLSIZE;
+
+		// Actual coords.
+		this.x = x;
+		this.y = y;
+
+		this.htmlElement = document.getElementById(name);
+		this.htmlElement.style.left = this.x + "px";
+		this.htmlElement.style.top = this.y + "px";
+	}
+	/*
+	convertPositionToGridCoords() {
+		return [this.x / CELLSIZE, this.y / CELLSIZE];
+	}*/
+	update() {
+		this.htmlElement.style.left = this.x + "px";
+		this.htmlElement.style.top = this.y + "px";
+	}
+}
+
+/*  --------------------------------  */
 /* 				GAME CLASS 			  */
 /*  --------------------------------  */
 
@@ -95,6 +127,7 @@ class Game {
 		// Variables.
 		this.self = this;
 		this.running = true;
+		const CELLSIZE = 40;
 
 		// Setup.
 		this.setup();
@@ -102,6 +135,9 @@ class Game {
 	setup() {
 		// Keep track of Game object.
 		let game = this;
+
+		// Player objects.
+		this.player1 = new Player("player1", 8, 7, "hero");
 
 		// Event listeners.
 		document.addEventListener('keydown', function(element) {
@@ -118,7 +154,7 @@ class Game {
 		this.interval = setInterval(this.run.bind(this), 50);
 
 		// Create grid.
-		this.grid = new Grid(this);
+		this.grid = new Grid(this, this.CELLSIZE);
 	}
 	run() {
 		// If the game has finished, halt game loop.
