@@ -92,14 +92,15 @@ class Player {
 	constructor(name, x, y, type) {
 		this.name = name;
 		this.type = type;
+		this.speed = 4;
 
 		// Grid coords.
-		this.gridX = x * CELLSIZE;
-		this.gridY = y * CELLSIZE;
+		this.gridX = x;
+		this.gridY = y;
 
 		// Actual coords.
-		this.x = x;
-		this.y = y;
+		this.x = x * CELLSIZE;
+		this.y = y * CELLSIZE;
 
 		this.htmlElement = document.getElementById(name);
 		this.htmlElement.style.left = this.x + "px";
@@ -109,9 +110,26 @@ class Player {
 	convertPositionToGridCoords() {
 		return [this.x / CELLSIZE, this.y / CELLSIZE];
 	}*/
+	moveUp() {
+		this.y -= this.speed;
+	}
+	moveDown() {
+		this.y += this.speed;
+	}
+	moveLeft() {
+		this.x -= this.speed;
+	}
+	moveRight() {
+		this.x += this.speed;
+	}
 	update() {
+		// Update DOM element
 		this.htmlElement.style.left = this.x + "px";
 		this.htmlElement.style.top = this.y + "px";
+
+		// Update grid coords.
+		this.gridX = this.x / CELLSIZE;
+		this.gridY = this.y / CELLSIZE;
 	}
 }
 
@@ -143,7 +161,16 @@ class Game {
 		document.addEventListener('keydown', function(element) {
 			switch(element.key) {
 				case 'w':
-					game.running = false;;
+					game.player1.moveUp();
+					break;
+				case 'a':
+					game.player1.moveLeft();
+					break;
+				case 's':
+					game.player1.moveDown();
+					break;
+				case 'd':
+					game.player1.moveRight();
 					break;
 				default:
 					break;
@@ -168,6 +195,7 @@ class Game {
 		this.draw();	
 	}
 	update() {
+		this.player1.update();
 
 	}
 	draw() {
