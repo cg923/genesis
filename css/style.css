@@ -1,7 +1,13 @@
 
-/* Game-board */
+/* Game objects */
 #canvas {
 	width: 800px;
 	height: 600px;
 	background: gray;
+}
+
+.grid {
+	background: black;
+	width: 100%;
+	height: 100%;
 }

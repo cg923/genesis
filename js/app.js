@@ -8,6 +8,12 @@ class Cell {
 		this.x = x;
 		this.y = y;
 		this.type = type;
+
+		// Create HTML element and add it to the DOM.
+		this.htmlElement = document.createElement('div');
+		this.htmlElement.classList.add('cell');
+		let grid = document.getElementById('grid');
+		grid.appendChild(this.htmlElement);
 	}
 	changeTypeTo(newType) {
 		this.type = newType;
@@ -21,10 +27,14 @@ class Cell {
 class Grid {
 	constructor(game) {
 		// Back pointer.
+		// TO DO - I don't actually know if I need this.
 		this.game = game;
 
 		this.widthInCells = 20;
 		this.heightInCells = 15;
+
+		// HTML element
+		this.htmlElement = document.getElementById('grid');
 
 		// A 2D array containing all game cells.
 		this.cells = [];
@@ -50,10 +60,7 @@ class Grid {
 class Game {
 	constructor() {
 		// Canvas set up
-		this.canvas = document.getElementById('canvas');
-		this.canvas.width = 800;
-		this.canvas.height = 600;
-		this.ctx = this.canvas.getContext('2d');
+		this.htmlElement = document.getElementById('game-board');
 
 		// Variables.
 		this.self = this;
