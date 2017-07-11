@@ -9,7 +9,7 @@ function Game() {
 	// Variables.
 	this.self = this;
 	this.running = true;
-	
+
 	// Setup.
 	this.setup();
 }
@@ -28,20 +28,21 @@ Game.prototype.setup = function() {
 		}
 	});
 
-	// Game loop.
+	// Creates game loop which will fire every 50ms.
 	this.interval = setInterval(this.run.bind(this), 50);
 }
 
 Game.prototype.run = function() {
 
-	console.log('hi');
-
 	// If the game has finished, halt game loop.
 	if(!this.running) {
-		console.log('stop');
 		clearInterval(this.interval);
 		return;
 	}
+
+	// Update-draw loop.
+	this.update();
+	this.draw();
 }
 
 Game.prototype.draw = function() {
@@ -49,7 +50,7 @@ Game.prototype.draw = function() {
 }
 
 Game.prototype.update = function() {
-
+	console.log('hi');
 }
 
 var game = new Game();
