@@ -89,10 +89,11 @@ class Grid {
 /*  --------------------------------  */
 
 class Player {
-	constructor(name, x, y, type) {
+	constructor(name, x, y, type, game) {
 		this.name = name;
 		this.type = type;
 		this.speed = 4;
+		this.game = game;
 
 		// Grid coords.
 		this.gridX = x;
@@ -101,6 +102,12 @@ class Player {
 		// Actual coords.
 		this.x = x * CELLSIZE;
 		this.y = y * CELLSIZE;
+
+		// Directions
+		this.up = false;
+		this.down = false;
+		this.right = false;
+		this.left = false;
 
 		this.htmlElement = document.getElementById(name);
 		this.htmlElement.style.left = this.x + "px";
@@ -111,25 +118,57 @@ class Player {
 		return [this.x / CELLSIZE, this.y / CELLSIZE];
 	}*/
 	moveUp() {
-		this.y -= this.speed;
+		// Prevent moving in two directions at once.
+		this.left = false;
+		this.right = false;
+
+		// Move up.
+		this.up = true;
 	}
 	moveDown() {
-		this.y += this.speed;
+		this.left = false;
+		this.right = false;
+		this.down = true;
 	}
 	moveLeft() {
-		this.x -= this.speed;
+		this.up = false;
+		this.down = false;
+		this.left = true;
 	}
 	moveRight() {
-		this.x += this.speed;
+		this.up = false;
+		this.down = false;
+		this.right = true;
+	}
+	stopUp() {
+		this.up = false;
+	}
+	stopDown() {
+		this.down = false;
+	}
+	stopLeft() {
+		this.left = false;
+	}
+	stopRight() {
+		this.right = false;
 	}
 	update() {
+		// Update position based on key states.
+		if (this.up) 		this.y -= this.speed;
+		if (this.down) 		this.y += this.speed;
+		if (this.left) 		this.x -= this.speed;
+		if (this.right) 	this.x += this.speed;
+
+		// Update grid coords.
+		this.gridX = Math.floor((this.x + this.htmlElement.clientWidth / 2 ) / CELLSIZE);
+		this.gridY = Math.floor((this.y + this.htmlElement.clientWidth / 2 ) / CELLSIZE);
+		
+		// Tell Grid where Player is now.
+		//this.game.grid.handlePosition()
+
 		// Update DOM element
 		this.htmlElement.style.left = this.x + "px";
 		this.htmlElement.style.top = this.y + "px";
-
-		// Update grid coords.
-		this.gridX = this.x / CELLSIZE;
-		this.gridY = this.y / CELLSIZE;
 	}
 }
 
@@ -157,7 +196,7 @@ class Game {
 		// Player objects.
 		this.player1 = new Player("player1", 8, 7, "hero");
 
-		// Event listeners.
+		// Key is pressed.
 		document.addEventListener('keydown', function(element) {
 			switch(element.key) {
 				case 'w':
@@ -176,6 +215,27 @@ class Game {
 					break;
 			}
 		});
+
+		// Key is release.
+		document.addEventListener('keyup', function(element) {
+			switch(element.key) {
+				case 'w':
+					game.player1.stopUp();
+					break;
+				case 'a':
+					game.player1.stopLeft();
+					break;
+				case 's':
+					game.player1.stopDown();
+					break;
+				case 'd':
+					game.player1.stopRight();
+					break;
+				default:
+					break;
+			}
+		});
+
 
 		// Creates game loop which will fire every 50ms.
 		this.interval = setInterval(this.run.bind(this), 50);
