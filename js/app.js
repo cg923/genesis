@@ -254,8 +254,8 @@ class Player {
 	}
 	startCoolDown() {
 		this.skillCoolDown = true;
-		console.log('yo');
-		this.skill1HtmlElement.classList.add('cool-down');
+		console.log(this.skill1HtmlElement.src);
+		this.skill1HtmlElement.innerHTML = "<p>Hi</p>";
 		this.skill2HtmlElement.classList.add('cool-down');
 		this.skill3HtmlElement.classList.add('cool-down');
 	}
