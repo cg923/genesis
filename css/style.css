@@ -12,9 +12,30 @@ header {
 	background: blue;
 }
 
+.left-column {
+	float: left;
+	width: 280px;
+	margin: 10px;
+}
+
+.right-column {
+	float: left;
+	width: 280px;
+	margin: 10px;
+}
+
+.skills {
+	clear: left;
+	margin: 10px auto;
+}
+
+h2 {
+	margin: 10px 0;
+}
+
 /* Game objects */
 #game-board {
-	margin: 0 auto;
+	float: left;
 	width: 800px;
 	height: 600px;
 	background: gray;

@@ -105,7 +105,12 @@ class Player {
 		this.name = name;
 		this.type = type;
 		this.game = game;
-		this.speed = 5;
+
+		if (this.type === 'monster') {
+			this.speed = 6;
+		} else {
+			this.speed = 5;
+		}
 
 		// Grid coords.
 		this.gridX = x;
