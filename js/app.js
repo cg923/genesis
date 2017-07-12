@@ -97,6 +97,53 @@ class Grid {
 }
 
 /*  --------------------------------  */
+/* 				SKILL CLASS 		  */
+/*  --------------------------------  */
+
+class Skill {
+	constructor(name) {
+		this.name = name;
+	}
+	static fire(name, player, opponent) {
+		if (player.skillCoolDown) return;
+		switch (name) {
+			case 'speed':
+				player.speed = 8;
+				setTimeout(function () {
+					player.speed = 5;
+					player.startCoolDown();
+					setTimeout(function() {
+						player.skillCoolDown = false;
+					}, 10000);
+				}, 5000);
+				break;
+			case 'slow':
+				opponent.speed = 2;
+				setTimeout(function () {
+					opponent.speed = 5;
+					player.startCoolDown();
+					setTimeout(function() {
+						player.skillCoolDown = false;
+					}, 10000);
+				}, 5000);
+				break;
+			case 'scramble':
+				opponent.scrambled = true;
+				setTimeout(function () {
+					opponent.scrambled = false;
+					player.startCoolDown();
+					setTimeout(function() {
+						player.skillCoolDown = false;
+					}, 10000);
+				}, 5000);
+				break;
+			default:
+				break;
+		}
+	}
+}
+
+/*  --------------------------------  */
 /* 				PLAYER CLASS 		  */
 /*  --------------------------------  */
 
@@ -105,12 +152,7 @@ class Player {
 		this.name = name;
 		this.type = type;
 		this.game = game;
-
-		if (this.type === 'monster') {
-			this.speed = 6;
-		} else {
-			this.speed = 5;
-		}
+		this.speed = 5;
 
 		// Grid coords.
 		this.gridX = x;
@@ -125,6 +167,19 @@ class Player {
 		this.down = false;
 		this.right = false;
 		this.left = false;
+
+		// SKEELZZZ
+		this.skillCoolDown = false;
+		this.scrambled = false;
+		if (type === 'hero') {
+			this.skill1HtmlElement = document.getElementById('p1s1');
+			this.skill2HtmlElement = document.getElementById('p1s2');
+			this.skill3HtmlElement = document.getElementById('p1s3');
+		} else {
+			this.skill1HtmlElement = document.getElementById('p2s1');
+			this.skill2HtmlElement = document.getElementById('p2s2');
+			this.skill3HtmlElement = document.getElementById('p2s3');
+		}
 
 		// DOM
 		this.htmlElement = document.getElementById(name);
@@ -144,33 +199,64 @@ class Player {
 
 		// Move up.
 		this.up = true;
+
+		// SCRAMBLED!
+		if (this.scrambled) {
+			this.up = false;
+			this.left = true;
+		}
 	}
 	moveDown() {
 		this.left = false;
 		this.right = false;
 		this.down = true;
+
+		if (this.scrambled) {
+			this.down = false;
+			this.up = true;
+		}
 	}
 	moveLeft() {
 		this.up = false;
 		this.down = false;
 		this.left = true;
+
+		if (this.scrambled) {
+			this.left = false;
+			this.right = true;
+		}
 	}
 	moveRight() {
 		this.up = false;
 		this.down = false;
 		this.right = true;
+
+		if (this.scrambled) {
+			this.right = false;
+			this.down = true;
+		}
 	}
 	stopUp() {
 		this.up = false;
+		if (this.scrambled) this.left = false;
 	}
 	stopDown() {
 		this.down = false;
+		if (this.scrambled) this.up = false;
 	}
 	stopLeft() {
 		this.left = false;
+		if (this.scrambled) this.right = false;
 	}
 	stopRight() {
 		this.right = false;
+		if (this.scrambled) this.down = false;
+	}
+	startCoolDown() {
+		this.skillCoolDown = true;
+		this.skill1HtmlElement.classList.add('cool-down');
+		this.skill2HtmlElement.classList.add('cool-down');
+		this.skill3HtmlElement.classList.add('cool-down');
 	}
 	update() {
 		// Update position based on key states.
@@ -249,6 +335,24 @@ class Game {
 					break;
 				case 'l':
 					game.player2.moveRight();
+					break;
+				case '1':
+					Skill.fire('speed', game.player1, game.player2);
+					break;
+				case '2':
+					Skill.fire('slow', game.player1, game.player2);
+					break;
+				case '3':
+					Skill.fire('scramble', game.player1, game.player2);
+					break;
+				case '8':
+					Skill.fire('speed', game.player2, game.player1);
+					break;
+				case '9':
+					Skill.fire('slow', game.player2, game.player1);
+					break;
+				case '0':
+					Skill.fire('scramble', game.player2, game.player1);
 					break;
 				default:
 					break;
