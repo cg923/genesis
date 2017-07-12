@@ -85,6 +85,8 @@ class Grid {
 		}
 	}
 	handlePosition(x, y, type) {
+		if(x < 0 || y < 0 || x > this.widthInCells - 1 || y > this.heightInCells - 1) return;
+
 		// If cell is empty and player type is Hero, make it grass.
 		if (type === 'hero') {
 			this.cells[x][y].changeTypeTo('grass');
@@ -113,8 +115,8 @@ class Skill {
 				setTimeout(function () {
 					player.speed = 5;
 					setTimeout(function() {
-						player.skillCoolDown = false;
-					}, 10000);
+						player.endCoolDown();
+					}, 5000);
 				}, 5000);
 				break;
 			case 'slow':
@@ -123,8 +125,8 @@ class Skill {
 				setTimeout(function () {
 					opponent.speed = 5;
 					setTimeout(function() {
-						player.skillCoolDown = false;
-					}, 10000);
+						player.endCoolDown();
+					}, 5000);
 				}, 5000);
 				break;
 			case 'scramble':
@@ -133,8 +135,8 @@ class Skill {
 				setTimeout(function () {
 					opponent.scrambled = false;
 					setTimeout(function() {
-						player.skillCoolDown = false;
-					}, 10000);
+						player.endCoolDown();
+					}, 5000);
 				}, 5000);
 				break;
 			default:
@@ -254,12 +256,25 @@ class Player {
 	}
 	startCoolDown() {
 		this.skillCoolDown = true;
-		console.log(this.skill1HtmlElement.src);
-		this.skill1HtmlElement.innerHTML = "<p>Hi</p>";
-		this.skill2HtmlElement.classList.add('cool-down');
-		this.skill3HtmlElement.classList.add('cool-down');
+		this.skill1HtmlElement.src = "images/skill1CD.png";
+		this.skill2HtmlElement.src = "images/skill2CD.png";
+		this.skill3HtmlElement.src = "images/skill3CD.png";
+	}
+	endCoolDown() {
+		this.skillCoolDown = false;
+		this.skill1HtmlElement.src = "images/skill1.png";
+		this.skill2HtmlElement.src = "images/skill2.png";
+		this.skill3HtmlElement.src = "images/skill3.png";
 	}
 	update() {
+		// Keep player on the map.
+		if (this.x < 0) this.x = 0;
+		if (this.y < 0) this.y = 0;
+		let maxWidth = this.game.grid.widthInCells * CELLSIZE - CELLSIZE;
+		if (this.x > maxWidth) this.x = maxWidth;
+		let maxHeight = this.game.grid.heightInCells * CELLSIZE - CELLSIZE;
+		if (this.y > maxHeight) this.y = maxHeight;
+
 		// Update position based on key states.
 		if (this.up) 		this.y -= this.speed;
 		if (this.down) 		this.y += this.speed;
