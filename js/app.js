@@ -356,7 +356,7 @@ class Game {
 		// Player objects.
 		this.player1 = new Player('player1', 7, 6, 'hero', this);
 		this.entities.push(this.player1);
-		this.player2 = new Player('player2', 12, 6, 'monster', this);
+		this.player2 = new Player('player2', 11, 6, 'monster', this);
 		this.entities.push(this.player2);
 
 		// Key is pressed.
