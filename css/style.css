@@ -45,6 +45,20 @@ header {
 	text-align: center;
 }
 
+.cooldown-clock {
+	visibility: visible;
+	position: relative;
+	top: -52px;
+	left: 14px;
+
+	font-size: 24px;
+	color: white;
+}
+
+.cooldown-clock.hidden {
+	visibility: hidden;
+}
+
 h2 {
 	margin: 10px 0;
 }

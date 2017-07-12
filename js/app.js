@@ -103,9 +103,6 @@ class Grid {
 /*  --------------------------------  */
 
 class Skill {
-	constructor(name) {
-		this.name = name;
-	}
 	static fire(name, player, opponent) {
 		if (player.skillCoolDown) return;
 		switch (name) {
@@ -259,12 +256,49 @@ class Player {
 		this.skill1HtmlElement.src = "images/skill1CD.png";
 		this.skill2HtmlElement.src = "images/skill2CD.png";
 		this.skill3HtmlElement.src = "images/skill3CD.png";
+
+		if(this.type === 'hero') {
+			let cooldownTimers = Array.from(document.getElementsByClassName('p1cooldown'));
+			cooldownTimers.forEach(function(e) {
+				e.classList.remove('hidden');
+			});
+			this.coolDownInterval = setInterval(function() {
+				cooldownTimers.forEach(function(e) {
+					e.textContent = parseInt(e.textContent) - 1;
+				});
+			}, 1000);
+		} else if (this.type === 'monster') {
+			let cooldownTimers = Array.from(document.getElementsByClassName('p2cooldown'));
+			cooldownTimers.forEach(function(e) {
+				e.classList.remove('hidden');
+			});
+			this.coolDownInterval = setInterval(function() {
+				cooldownTimers.forEach(function(e) {
+					e.textContent = parseInt(e.textContent) - 1;
+				});
+			}, 1000);
+		}
 	}
 	endCoolDown() {
 		this.skillCoolDown = false;
 		this.skill1HtmlElement.src = "images/skill1.png";
 		this.skill2HtmlElement.src = "images/skill2.png";
 		this.skill3HtmlElement.src = "images/skill3.png";
+		clearInterval(this.coolDownInterval);
+
+		if(this.type === 'hero') {
+			let cooldownTimers = Array.from(document.getElementsByClassName('p1cooldown'));
+			cooldownTimers.forEach(function(e) {
+				e.classList.add('hidden');
+				e.textContent = 10;
+			});
+		} else if (this.type === 'monster') {
+			let cooldownTimers = Array.from(document.getElementsByClassName('p2cooldown'));
+			cooldownTimers.forEach(function(e) {
+				e.classList.add('hidden');
+				e.textContent = 10;
+			});
+		}		
 	}
 	update() {
 		// Keep player on the map.
