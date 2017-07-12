@@ -24,13 +24,32 @@ header {
 	margin: 10px;
 }
 
-.skills {
-	clear: left;
-	margin: 10px auto;
+.player1 {
+	float: right;
+	margin-right: -15px;
+}
+
+.player1 img {
+	transform: scaleX(-1);
+}
+
+.player2 {
+	float: left;
+	margin-left: -10px;
+}
+
+.skill-label {
+	width: 50px;
+	text-align: center;
 }
 
 h2 {
 	margin: 10px 0;
+}
+
+img {
+	display: inline-block;
+	margin: 10px 0 0 -10px;
 }
 
 /* Game objects */
@@ -55,7 +74,8 @@ h2 {
 	height: 40px;
 	z-index: 0;
 
-	border: 1px solid gray;
+	border-top: 1px solid gray;
+	border-left: 1px solid gray;
 }
 
 .cell.empty {
