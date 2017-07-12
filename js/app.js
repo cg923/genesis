@@ -82,6 +82,14 @@ class Grid {
 			this.cells[this.grassCells[i][0]][this.grassCells[i][1]].changeTypeTo('grass');
 		}
 	}
+	handlePosition(x, y, type) {
+		// If cell is empty and player type is Hero, make it grass.
+		if (type === 'hero') {
+			this.cells[x][y].changeTypeTo('grass');
+		} else if (type === 'monster') {
+			this.cells[x][y].changeTypeTo('empty');
+		}
+	}
 }
 
 /*  --------------------------------  */
@@ -92,8 +100,8 @@ class Player {
 	constructor(name, x, y, type, game) {
 		this.name = name;
 		this.type = type;
-		this.speed = 4;
 		this.game = game;
+		this.speed = 4;
 
 		// Grid coords.
 		this.gridX = x;
@@ -113,10 +121,6 @@ class Player {
 		this.htmlElement.style.left = this.x + "px";
 		this.htmlElement.style.top = this.y + "px";
 	}
-	/*
-	convertPositionToGridCoords() {
-		return [this.x / CELLSIZE, this.y / CELLSIZE];
-	}*/
 	moveUp() {
 		// Prevent moving in two directions at once.
 		this.left = false;
@@ -162,9 +166,9 @@ class Player {
 		// Update grid coords.
 		this.gridX = Math.floor((this.x + this.htmlElement.clientWidth / 2 ) / CELLSIZE);
 		this.gridY = Math.floor((this.y + this.htmlElement.clientWidth / 2 ) / CELLSIZE);
-		
+
 		// Tell Grid where Player is now.
-		//this.game.grid.handlePosition()
+		this.game.grid.handlePosition(this.gridX, this.gridY, this.type);
 
 		// Update DOM element
 		this.htmlElement.style.left = this.x + "px";
@@ -194,7 +198,7 @@ class Game {
 		let game = this;
 
 		// Player objects.
-		this.player1 = new Player("player1", 8, 7, "hero");
+		this.player1 = new Player("player1", 8, 7, "hero", this);
 
 		// Key is pressed.
 		document.addEventListener('keydown', function(element) {
