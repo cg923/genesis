@@ -65,6 +65,8 @@ class Grid {
 							[9,7],
 							[10,7]];
 
+		this.fullCells = this.grassCells.length;
+
 		this.populate();
 	}
 	populate() {
@@ -86,8 +88,10 @@ class Grid {
 		// If cell is empty and player type is Hero, make it grass.
 		if (type === 'hero') {
 			this.cells[x][y].changeTypeTo('grass');
+			this.fullCells++;
 		} else if (type === 'monster') {
 			this.cells[x][y].changeTypeTo('empty');
+			this.fullCells--;
 		}
 	}
 }
@@ -101,7 +105,7 @@ class Player {
 		this.name = name;
 		this.type = type;
 		this.game = game;
-		this.speed = 4;
+		this.speed = 5;
 
 		// Grid coords.
 		this.gridX = x;
@@ -117,9 +121,16 @@ class Player {
 		this.right = false;
 		this.left = false;
 
+		// DOM
 		this.htmlElement = document.getElementById(name);
 		this.htmlElement.style.left = this.x + "px";
 		this.htmlElement.style.top = this.y + "px";
+
+		if (this.type === 'hero') {
+			this.htmlElement.style.background = 'blue';
+		} else if (this.type === 'monster') {
+			this.htmlElement.style.background = 'red';
+		}
 	}
 	moveUp() {
 		// Prevent moving in two directions at once.
@@ -182,7 +193,7 @@ class Player {
 
 class Game {
 	constructor() {
-		// Canvas set up
+		// DOM setup
 		this.htmlElement = document.getElementById('game-board');
 
 		// Variables.
@@ -191,14 +202,21 @@ class Game {
 		const CELLSIZE = 40;
 
 		// Setup.
+		// TO DO - Is there any particular reason this is a separate function?
 		this.setup();
 	}
 	setup() {
-		// Keep track of Game object.
+		// Keeps track of Game Object;
 		let game = this;
 
+		// Keeps track of all Game entities.
+		this.entities = [];
+
 		// Player objects.
-		this.player1 = new Player("player1", 8, 7, "hero", this);
+		this.player1 = new Player('player1', 7, 6, 'hero', this);
+		this.entities.push(this.player1);
+		this.player2 = new Player('player2', 12, 6, 'monster', this);
+		this.entities.push(this.player2);
 
 		// Key is pressed.
 		document.addEventListener('keydown', function(element) {
@@ -214,6 +232,18 @@ class Game {
 					break;
 				case 'd':
 					game.player1.moveRight();
+					break;
+				case 'i':
+					game.player2.moveUp();
+					break;
+				case 'j':
+					game.player2.moveLeft();
+					break;
+				case 'k':
+					game.player2.moveDown();
+					break;
+				case 'l':
+					game.player2.moveRight();
 					break;
 				default:
 					break;
@@ -234,6 +264,18 @@ class Game {
 					break;
 				case 'd':
 					game.player1.stopRight();
+					break;
+				case 'i':
+					game.player2.stopUp();
+					break;
+				case 'j':
+					game.player2.stopLeft();
+					break;
+				case 'k':
+					game.player2.stopDown();
+					break;
+				case 'l':
+					game.player2.stopRight();
 					break;
 				default:
 					break;
@@ -259,8 +301,10 @@ class Game {
 		this.draw();	
 	}
 	update() {
-		this.player1.update();
-
+		this.entities.forEach(function(element) {
+			//console.log(element);
+			element.update();
+		})
 	}
 	draw() {
 		/* TO DO - now that we've switched away from Canvas
