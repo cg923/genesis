@@ -43,6 +43,16 @@ header {
 	text-align: center;
 }
 
+.skills img.cool-down {
+	animation-name: 'cool-down';
+	animation-duration: 10s;
+}
+
+@keyframes cool-down {
+	0% { color: rgba(255,255,255,0.0); }
+	100% { color: rgba(255,255,255,1.0); }
+}
+
 h2 {
 	margin: 10px 0;
 }

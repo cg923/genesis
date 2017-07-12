@@ -109,9 +109,9 @@ class Skill {
 		switch (name) {
 			case 'speed':
 				player.speed = 8;
+				player.startCoolDown();
 				setTimeout(function () {
 					player.speed = 5;
-					player.startCoolDown();
 					setTimeout(function() {
 						player.skillCoolDown = false;
 					}, 10000);
@@ -119,9 +119,9 @@ class Skill {
 				break;
 			case 'slow':
 				opponent.speed = 2;
+				player.startCoolDown();
 				setTimeout(function () {
 					opponent.speed = 5;
-					player.startCoolDown();
 					setTimeout(function() {
 						player.skillCoolDown = false;
 					}, 10000);
@@ -129,9 +129,9 @@ class Skill {
 				break;
 			case 'scramble':
 				opponent.scrambled = true;
+				player.startCoolDown();
 				setTimeout(function () {
 					opponent.scrambled = false;
-					player.startCoolDown();
 					setTimeout(function() {
 						player.skillCoolDown = false;
 					}, 10000);
@@ -254,6 +254,7 @@ class Player {
 	}
 	startCoolDown() {
 		this.skillCoolDown = true;
+		console.log('yo');
 		this.skill1HtmlElement.classList.add('cool-down');
 		this.skill2HtmlElement.classList.add('cool-down');
 		this.skill3HtmlElement.classList.add('cool-down');
