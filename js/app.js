@@ -1,5 +1,6 @@
-
+// Game constants.
 const CELLSIZE = 40;
+
 /*  --------------------------------  */
 /* 				CELL CLASS 			  */
 /*  --------------------------------  */
@@ -89,12 +90,14 @@ class Grid {
 
 		// If cell is empty and player type is Hero, make it grass.
 		if (type === 'hero') {
+			if(this.cells[x][y].type === 'empty') this.fullCells++;
 			this.cells[x][y].changeTypeTo('grass');
-			this.fullCells++;
 		} else if (type === 'monster') {
+			if(this.cells[x][y].type === 'grass') this.fullCells--;
 			this.cells[x][y].changeTypeTo('empty');
-			this.fullCells--;
 		}
+		console.log(this.fullCells);
+		document.getElementById('goal-counter').innerText = "GOAL: " + this.fullCells + "/" + this.game.goalCells;
 	}
 }
 
@@ -340,7 +343,8 @@ class Game {
 		// Variables.
 		this.self = this;
 		this.running = true;
-		const CELLSIZE = 40;
+		//const CELLSIZE = 40;
+		this.goalCells = 50;
 
 		// Setup.
 		// TO DO - Is there any particular reason this is a separate function?
