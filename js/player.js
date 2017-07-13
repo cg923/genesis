@@ -51,6 +51,8 @@ class Player {
 		// Grid coords.
 		this.gridX = x;
 		this.gridY = y;
+		this.currentCell = [x, y];
+		this.target = [x-1, y-1];
 
 		// Actual coords.
 		this.x = x * CELLSIZE;
@@ -199,11 +201,6 @@ class Player {
 		}		
 	}
 	update() {
-		// If this is an AI controlled player, handle it.
-		/*if ((this.gameMode === 'pvc' && this.name === 'player2') ||
-			(this.gameMode === 'cvp' && this.name === 'player1')) {*/
-		//}
-
 
 		// Keep player on the map.
 		if (this.x < 0) this.x = 0;
@@ -224,7 +221,11 @@ class Player {
 		this.gridY = Math.floor((this.y + this.htmlElement.clientWidth / 2 ) / CELLSIZE);
 		this.currentCell = [this.gridX, this.gridY];
 
-		this.makeAIDecision();
+		// If this is an AI controlled player, handle it.
+		if ((this.gameMode === 'pvc' && this.name === 'player2') ||
+			(this.gameMode === 'cvp' && this.name === 'player1')) {
+			this.makeAIDecision();
+		}
 
 		// Tell Grid where Player is now.
 		this.game.grid.handlePosition(this.gridX, this.gridY, this.type);
@@ -245,21 +246,33 @@ class Player {
 			// If this is a monster, check to see if any are grass.
 			if(this.type === 'monster') {
 				let player = this;
+				let foundGrass = false;
 				adjacent.forEach(function(e) {
 					if (player.game.grid.cells[e[0]][e[1]].type === 'grass') {
-						player.target = [e[0],e[1]];						
+						player.target = [e[0],e[1]];
+						foundGrass = true;					
 					}
 				});
+
+				if (!foundGrass) {
+					this.target = this.game.player1.currentCell;
+				}
 			}
 
 			// If this is a player, check to see if any are empty.
 			if(this.type === 'hero') {
 				let player = this;
+				let foundEmpty = false;
 				adjacent.forEach(function(e) {
 					if (player.game.grid.cells[e[0]][e[1]].type === 'empty') {
-						player.target = [e[0],e[1]];						
+						player.target = [e[0],e[1]];
+						foundEmpty = true;						
 					}
 				});
+
+				if (!foundEmpty) {
+					this.target = this.game.player2.currentCell;
+				}
 			}
 		} else {
 			// Move left
