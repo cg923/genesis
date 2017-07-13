@@ -1,3 +1,7 @@
+
+// Allows for classes in separate files.
+window.nameSpace = "map";
+
 // Game constants.
 const CELLSIZE = 40;
 const GAMETIME = 10;
