@@ -175,6 +175,8 @@ class Game {
 		// Game is finished
 		if (this.timeRemaining === 0) {
 			clearInterval(this.timerInterval);
+			this.player1.endCoolDown();
+			this.player2.endCoolDown();
 			this.running = false;
 			if(this.grid.fullCells >= this.goalCells) {
 				document.getElementById('win-text').innerText = "Player 1 Wins!";
