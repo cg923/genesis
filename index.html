@@ -9,12 +9,14 @@
 	<h1>WELCOME TO G E N E S I S</h1>
 	<div class="player-select-area">
 		<div class="player-select-options">
-			<div class="one-player game-option">
-				<img src="images/pvm.png" alt="Player Vs. Computer" />
-			</div>
-			<div class="two-player game-option">
-				<img src="images/pvp.png" alt="Player Vs. Player" />
-			</div>
+			<form id="gameplay" action="game.html" method="GET">
+				<div class="one-player game-option">
+					<a href="game.html?type=pvc"><img src="images/pvm.png" alt="Player Vs. Computer" /></a>
+				</div>
+				<div class="two-player game-option">
+					<a href="game.html?type=pvp"><img src="images/pvp.png" alt="Player Vs. Player" /></a>
+				</div>
+			</form>
 		</div>
 	</div>
 </body>
