@@ -73,6 +73,31 @@ header {
 	opacity: 0.5;
 }
 
+.win-div {
+	position: absolute;
+	visibility: visible;
+	width: 300px;
+	height: 100px;
+	left: 29%;
+	top: 40%;
+	z-index: 2;
+
+	background: #2b2b2b;
+	color: white;
+	font-size: 36px;
+	vertical-align: middle;
+	text-align: center;
+}
+
+.win-div.hidden {
+	visibility: hidden;
+}
+
+.reset-button {
+	width: 100px;
+	height: 30px;
+}
+
 footer {
 	clear: left;
 }

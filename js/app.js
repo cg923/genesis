@@ -1,5 +1,6 @@
 // Game constants.
 const CELLSIZE = 40;
+const GAMETIME = 5;
 
 /*  --------------------------------  */
 /* 				CELL CLASS 			  */
@@ -96,7 +97,6 @@ class Grid {
 			if(this.cells[x][y].type === 'grass') this.fullCells--;
 			this.cells[x][y].changeTypeTo('empty');
 		}
-		console.log(this.fullCells);
 		document.getElementById('goal-counter').innerText = "GOAL: " + this.fullCells + "/" + this.game.goalCells;
 	}
 }
@@ -343,8 +343,8 @@ class Game {
 		// Variables.
 		this.self = this;
 		this.running = true;
-		//const CELLSIZE = 40;
 		this.goalCells = 50;
+		this.timeRemaining = GAMETIME;
 
 		// Setup.
 		// TO DO - Is there any particular reason this is a separate function?
@@ -362,6 +362,11 @@ class Game {
 		this.entities.push(this.player1);
 		this.player2 = new Player('player2', 11, 6, 'monster', this);
 		this.entities.push(this.player2);
+
+		// Game timer
+		this.timerInterval = setInterval(function() {
+				game.timeRemaining--;
+			}, 1000);
 
 		// Key is pressed.
 		document.addEventListener('keydown', function(element) {
@@ -464,10 +469,17 @@ class Game {
 		this.draw();	
 	}
 	update() {
+		// Game is finished
+		if (this.timeRemaining === 0) {
+			clearInterval(this.timerInterval);
+			this.running = false;
+			document.getElementById('win-message').classList.remove('hidden');
+		}
 		this.entities.forEach(function(element) {
-			//console.log(element);
 			element.update();
 		})
+
+		document.getElementById('timer-clock').textContent = "TIME: " + this.timeRemaining;
 	}
 	draw() {
 		/* TO DO - now that we've switched away from Canvas
