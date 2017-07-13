@@ -4,11 +4,14 @@ class Player {
 		this.name = name;
 		this.type = type;
 		this.game = game;
+		this.gameMode = game.gameMode;
 		this.speed = 5;
 
 		// Grid coords.
 		this.gridX = x;
 		this.gridY = y;
+		this.currentCell = [x, y];
+		this.previousCell = [x, y];
 
 		// Actual coords.
 		this.x = x * CELLSIZE;
@@ -174,6 +177,13 @@ class Player {
 		}		
 	}
 	update() {
+		// If this is an AI controlled player, handle it.
+		/*if ((this.gameMode === 'pvc' && this.name === 'player2') ||
+			(this.gameMode === 'cvp' && this.name === 'player1')) {*/
+			this.makeAIDecision();
+		//}
+
+
 		// Keep player on the map.
 		if (this.x < 0) this.x = 0;
 		if (this.y < 0) this.y = 0;
@@ -191,6 +201,7 @@ class Player {
 		// Update grid coords.
 		this.gridX = Math.floor((this.x + this.htmlElement.clientWidth / 2 ) / CELLSIZE);
 		this.gridY = Math.floor((this.y + this.htmlElement.clientWidth / 2 ) / CELLSIZE);
+		this.currentCell = [this.gridX, this.gridY];
 
 		// Tell Grid where Player is now.
 		this.game.grid.handlePosition(this.gridX, this.gridY, this.type);
@@ -198,5 +209,17 @@ class Player {
 		// Update DOM element
 		this.htmlElement.style.left = this.x + "px";
 		this.htmlElement.style.top = this.y + "px";
+	}
+	makeAIDecision() {
+		// Check to see if we are in a new square.
+		if (this.currentCell[0] !== this.previousCell[0] ||
+			this.currentCell[1] !== this.previousCell[1]) {
+			console.log('hi');
+			// Get adjacent cells.
+			let adjacent = this.game.grid.adjacent(this.gridX, this.gridY);
+			console.log(adjacent);
+
+			this.previousCell = this.currentCell;
+		}
 	}
 }
