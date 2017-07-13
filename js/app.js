@@ -1,6 +1,6 @@
 // Game constants.
 const CELLSIZE = 40;
-const GAMETIME = 5;
+const GAMETIME = 10;
 
 /*  --------------------------------  */
 /* 				CELL CLASS 			  */
@@ -40,7 +40,7 @@ class Cell {
 /*  --------------------------------  */
 
 class Grid {
-	constructor(game,) {
+	constructor(game) {
 		// Back pointer.
 		// TO DO - I don't actually know if I need this.
 		this.game = game;
@@ -85,6 +85,22 @@ class Grid {
 		for(let i = 0; i < this.grassCells.length; i++) {
 			this.cells[this.grassCells[i][0]][this.grassCells[i][1]].changeTypeTo('grass');
 		}
+	}
+	reset() {
+		// Clear cells.
+		for(let x = 1; x < this.widthInCells + 1; x++) {
+			for(let y = 1; y < this.heightInCells + 1; y++) {
+				this.cells[x-1][y-1].changeTypeTo('empty');
+			}
+		}
+
+		// Reset grass cells.
+		for(let i = 0; i < this.grassCells.length; i++) {
+			this.cells[this.grassCells[i][0]][this.grassCells[i][1]].changeTypeTo('grass');
+		}
+
+		this.fullCells = this.grassCells.length;
+		document.getElementById('goal-counter').innerText = "GOAL: " + this.fullCells + "/" + this.game.goalCells;
 	}
 	handlePosition(x, y, type) {
 		if(x < 0 || y < 0 || x > this.widthInCells - 1 || y > this.heightInCells - 1) return;
@@ -193,6 +209,26 @@ class Player {
 		} else if (this.type === 'monster') {
 			this.htmlElement.style.background = 'red';
 		}
+	}
+	reset(x, y) {
+		// Grid coords.
+		this.gridX = x;
+		this.gridY = y;
+
+		// Actual coords.
+		this.x = x * CELLSIZE;
+		this.y = y * CELLSIZE;
+
+		// Directions
+		this.up = false;
+		this.down = false;
+		this.right = false;
+		this.left = false;
+
+		// Cooldowns
+		this.endCoolDown();
+
+		this.update();
 	}
 	moveUp() {
 		// Prevent moving in two directions at once.
@@ -363,10 +399,18 @@ class Game {
 		this.player2 = new Player('player2', 11, 6, 'monster', this);
 		this.entities.push(this.player2);
 
+		// Create grid.
+		this.grid = new Grid(this, this.CELLSIZE);
+
 		// Game timer
 		this.timerInterval = setInterval(function() {
 				game.timeRemaining--;
 			}, 1000);
+
+		// Reset button.
+		Array.from(document.getElementsByClassName('reset-button')).forEach(function(e) {
+			e.addEventListener('click', game.reset.bind(game));
+		});
 
 		// Key is pressed.
 		document.addEventListener('keydown', function(element) {
@@ -418,7 +462,7 @@ class Game {
 			}
 		});
 
-		// Key is release.
+		// Key is released.
 		document.addEventListener('keyup', function(element) {
 			switch(element.key) {
 				case 'w':
@@ -452,27 +496,57 @@ class Game {
 
 
 		// Creates game loop which will fire every 50ms.
-		this.interval = setInterval(this.run.bind(this), 50);
+		this.gameLoop = setInterval(this.run.bind(this), 50);
+	}
+	reset() {
+		this.running = false;
 
-		// Create grid.
-		this.grid = new Grid(this, this.CELLSIZE);
+		// If the player objects don't exist it means setup() hasn't been called.
+		if (!this.player1 || !this.player2 || !this.grid) {
+			this.setup();
+			return;
+		} 
+
+		// Reset players positions.
+		this.player1.reset(7,6);
+		this.player2.reset(11,6);
+
+		// Reset grid
+		this.grid.reset();
+
+		// Reset timer
+		this.timeRemaining = GAMETIME;
+		this.timerInterval = setInterval(function() {
+				game.timeRemaining--;
+			}, 1000);
+
+		// Hide win message
+		document.getElementById('win-message').classList.add('hidden');
+
+		// Restart the game loop.
+		this.running = true;
+		this.gameLoop = setInterval(this.run.bind(this), 50);
 	}
 	run() {
 		// If the game has finished, halt game loop.
 		if(!this.running) {
-			clearInterval(this.interval);
+			clearInterval(this.gameLoop);
 			return;
 		}
 
-		// Update-draw loop.
+		// Update.
 		this.update();
-		this.draw();	
 	}
 	update() {
 		// Game is finished
 		if (this.timeRemaining === 0) {
 			clearInterval(this.timerInterval);
 			this.running = false;
+			if(this.grid.fullCells >= this.goalCells) {
+				document.getElementById('win-text').innerText = "Player 1 Wins!";
+			} else {
+				document.getElementById('win-text').innerText = "Player 2 Wins!";
+			}
 			document.getElementById('win-message').classList.remove('hidden');
 		}
 		this.entities.forEach(function(element) {
@@ -480,10 +554,6 @@ class Game {
 		})
 
 		document.getElementById('timer-clock').textContent = "TIME: " + this.timeRemaining;
-	}
-	draw() {
-		/* TO DO - now that we've switched away from Canvas
-		 	this might be totally unnecessary */
 	}
 }
 
