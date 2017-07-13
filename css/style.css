@@ -1,5 +1,5 @@
 
-/* Display */
+/* Website Display */
 * {
 	margin: 0;
 	padding: 0;
@@ -9,10 +9,34 @@
 header {
 	display: block;
 	width: 100%;
+	height: 90px;
+
+	background: #487399;
+	color: white;
+}
+
+h1 {
+	display: inline-block;
+	margin: 10px auto;
+}
+
+nav {
+	display: inline-block;
+	margin: 0 10px;
+}
+
+.reset-button {
+	width: 100px;
 	height: 50px;
 
-	background: blue;
+	background: #ff832f;
+	font-size: 26px;
+	color: white;
+	border: none;
+	border-radius: 5px;
 }
+
+/* Game Display */
 
 .left-column {
 	float: left;
@@ -93,15 +117,6 @@ header {
 	visibility: hidden;
 }
 
-.reset-button {
-	width: 100px;
-	height: 30px;
-}
-
-footer {
-	clear: left;
-}
-
 .win-condition {
 	display: block;
 	position: relative;
@@ -129,6 +144,7 @@ img {
 }
 
 /* Game objects */
+
 .game-board {
 	position: relative;
 	float: left;

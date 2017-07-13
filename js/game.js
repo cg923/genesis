@@ -128,6 +128,13 @@ class Game {
 	reset() {
 		this.running = false;
 
+		if (this.gameLoop) {
+			clearInterval(this.gameLoop);
+		}
+		if (this.timerInterval) {
+			clearInterval(this.timerInterval);
+		}
+
 		// If the player objects don't exist it means setup() hasn't been called.
 		if (!this.player1 || !this.player2 || !this.grid) {
 			this.setup();
