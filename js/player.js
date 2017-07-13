@@ -12,6 +12,7 @@ class Player {
 		this.gridY = y;
 		this.currentCell = [x, y];
 		this.previousCell = [x, y];
+		this.target = [x-1, y-1];
 
 		// Actual coords.
 		this.x = x * CELLSIZE;
@@ -214,10 +215,23 @@ class Player {
 		// Check to see if we are in a new square.
 		if (this.currentCell[0] !== this.previousCell[0] ||
 			this.currentCell[1] !== this.previousCell[1]) {
-			console.log('hi');
+
 			// Get adjacent cells.
 			let adjacent = this.game.grid.adjacent(this.gridX, this.gridY);
-			console.log(adjacent);
+
+			// If this is a monster, check to see if any are grass.
+			if(this.type === 'monster') {
+				let player = this;
+				adjacent.forEach(function(e) {
+					if (player.game.grid.cells[e[0]][e[1]].type === 'grass') {
+						player.target = [e[0],e[1]];
+						console.log('going!');
+						
+					}
+				});
+			}
+
+			// If this is a player, check to see if any are empty.
 
 			this.previousCell = this.currentCell;
 		}

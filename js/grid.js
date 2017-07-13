@@ -79,7 +79,6 @@ class Grid {
 		let cells = [];
 		for(let i = x - 1; i <= x + 1; i++) {
 			for(let j = y - 1; j <= y + 1; j++) {
-				console.log(i + ", " + j);
 				if(i >= 0 && 
 					j >= 0 &&
 					i <= this.widthInCells - 1 &&
@@ -88,9 +87,6 @@ class Grid {
 				}
 			}
 		}
-
-		// Remove cell that is x, y
-		cells.splice(4,1);
 
 		return cells;
 	}
