@@ -11,7 +11,6 @@ class Player {
 		this.gridX = x;
 		this.gridY = y;
 		this.currentCell = [x, y];
-		this.previousCell = [x, y];
 		this.target = [x-1, y-1];
 
 		// Actual coords.
@@ -68,47 +67,69 @@ class Player {
 
 		this.update();
 	}
-	moveUp() {
+	moveUp(interrupt = true) {
 		// Prevent moving in two directions at once.
-		this.left = false;
-		this.right = false;
+		if (interrupt) {
+			this.left = false;
+			this.right = false;
+		}
 
 		// Move up.
 		this.up = true;
 
 		// SCRAMBLED!
 		if (this.scrambled) {
-			this.up = false;
+			if (interrupt) {
+				this.up = false;
+			}
+
 			this.left = true;
 		}
 	}
-	moveDown() {
-		this.left = false;
-		this.right = false;
+	moveDown(interrupt = true) {
+		if (interrupt) {
+			this.left = false;
+			this.right = false;
+		}
+
 		this.down = true;
 
 		if (this.scrambled) {
-			this.down = false;
+			if (interrupt) {
+				this.down = false;
+			}
+
 			this.up = true;
 		}
 	}
-	moveLeft() {
-		this.up = false;
-		this.down = false;
+	moveLeft(interrupt = true) {
+		if (interrupt) {
+			this.up = false;
+			this.down = false;
+		}
+
 		this.left = true;
 
 		if (this.scrambled) {
-			this.left = false;
+			if (interrupt) {
+				this.left = false;
+			}
+
 			this.right = true;
 		}
 	}
-	moveRight() {
-		this.up = false;
-		this.down = false;
+	moveRight(interrupt = true) {
+		if (interrupt) {
+			this.up = false;
+			this.down = false;
+		}
 		this.right = true;
 
 		if (this.scrambled) {
-			this.right = false;
+			if (interrupt) {
+				this.right = false;
+			}
+
 			this.down = true;
 		}
 	}
@@ -181,7 +202,6 @@ class Player {
 		// If this is an AI controlled player, handle it.
 		/*if ((this.gameMode === 'pvc' && this.name === 'player2') ||
 			(this.gameMode === 'cvp' && this.name === 'player1')) {*/
-			this.makeAIDecision();
 		//}
 
 
@@ -204,6 +224,8 @@ class Player {
 		this.gridY = Math.floor((this.y + this.htmlElement.clientWidth / 2 ) / CELLSIZE);
 		this.currentCell = [this.gridX, this.gridY];
 
+		this.makeAIDecision();
+
 		// Tell Grid where Player is now.
 		this.game.grid.handlePosition(this.gridX, this.gridY, this.type);
 
@@ -212,9 +234,10 @@ class Player {
 		this.htmlElement.style.top = this.y + "px";
 	}
 	makeAIDecision() {
-		// Check to see if we are in a new square.
-		if (this.currentCell[0] !== this.previousCell[0] ||
-			this.currentCell[1] !== this.previousCell[1]) {
+
+		// Has reached target and it's time to calculate a new target.
+		if (this.currentCell[0] === this.target[0] &&
+			this.currentCell[1] === this.target[1]) {
 
 			// Get adjacent cells.
 			let adjacent = this.game.grid.adjacent(this.gridX, this.gridY);
@@ -224,16 +247,48 @@ class Player {
 				let player = this;
 				adjacent.forEach(function(e) {
 					if (player.game.grid.cells[e[0]][e[1]].type === 'grass') {
-						player.target = [e[0],e[1]];
-						console.log('going!');
-						
+						player.target = [e[0],e[1]];						
 					}
 				});
 			}
 
 			// If this is a player, check to see if any are empty.
+			if(this.type === 'hero') {
+				let player = this;
+				adjacent.forEach(function(e) {
+					if (player.game.grid.cells[e[0]][e[1]].type === 'empty') {
+						player.target = [e[0],e[1]];						
+					}
+				});
+			}
+		} else {
+			// Move left
+			if(this.currentCell[0] > this.target[0]) {
+				this.moveLeft(false);
+			} else {
+				this.stopLeft();
+			}
 
-			this.previousCell = this.currentCell;
+			// Move right
+			if(this.currentCell[0] < this.target[0]) {
+				this.moveRight(false);
+			} else {
+				this.stopRight();
+			}
+
+			// Move down.
+			if(this.currentCell[1] < this.target[1]) {
+				this.moveDown(false);
+			} else {
+				this.stopDown();
+			}
+
+			// Move up.
+			if(this.currentCell[1] > this.target[1]) {
+				this.moveUp(false);
+			} else {
+				this.stopUp();
+			}
 		}
 	}
 }
