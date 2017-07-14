@@ -6,7 +6,7 @@ class Game {
 		// Variables.
 		this.self = this;
 		this.running = true;
-		this.goalCells = 50;
+		this.goalCells = GOALCELLS;
 		this.timeRemaining = GAMETIME;
 		this.gameMode = gameMode;
 		this.readyTime = 3;
@@ -241,9 +241,9 @@ class Game {
 			this.player2.endCoolDown();
 			this.running = false;
 			if(this.grid.fullCells >= this.goalCells) {
-				document.getElementById('win-text').innerText = "Player 1 Wins!";
+				document.getElementById('win-text').innerText = "Creation Wins!";
 			} else {
-				document.getElementById('win-text').innerText = "Player 2 Wins!";
+				document.getElementById('win-text').innerText = "Destruction Wins!";
 			}
 			document.getElementById('win-message').classList.remove('hidden');
 		}

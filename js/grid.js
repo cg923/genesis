@@ -91,7 +91,7 @@ class Grid {
 		return cells;
 	}
 	firstEmpty() {
-		cells.forEach(function(e) {
+		this.cells.forEach(function(e) {
 			if (e.type === 'empty') {
 				return e;
 			}
