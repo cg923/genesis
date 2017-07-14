@@ -19,30 +19,35 @@ header {
 	width: 100%;
 	height: 120px;
 
-	background: #487399;
+	/*background: #ff832f;*/
+	background: #222;
+	box-shadow: 100px 300px 500px 6px #fff;
 }
 
 .header-content {
+	/*
 	display: block;
-	width: 300px;
 	margin: 0px auto;
-	padding-top: 20px;
+	padding-top: 20px;*/
 }
 
 header h1 {
 	display: block;
-	width: 300px;
+	width: 1000px;
 	margin: 0 auto;
+	padding: 30px;
 
-	color: white;
-	font-size: 40px;
 	text-align: center;
+	font-size: 50px;
+	font-weight: 900;
+	color: white;
+	letter-spacing: 1em;
 }
 
 nav {
-	display: block;
+	position: relative;
+	top: -80px;
 	width: 300px;
-	margin: 0 auto;
 }
 
 form {
@@ -60,11 +65,11 @@ form {
 	height: 50px;
 	margin: 0 10px;
 
-	background: #ff832f;
+	background: #666;
 	font-size: 26px;
 	color: white;
-	border: 2px solid black;
-	border-radius: 5px;
+	border: none;
+	border-radius: 10px;
 }
 
 /* Game Display */
@@ -101,6 +106,23 @@ main {
 	margin-left: -10px;
 }
 
+.ready-message {
+	visibility: visible;
+
+	display: block;
+	position: absolute;
+	top: 200px;
+	left: 350px;
+	z-index: 3;
+	width: 100px;
+
+	background: #333;
+	text-align: center;
+}
+
+.ready-message.hidden {
+	visibility: hidden;
+}
 .skill-label {
 	width: 50px;
 	text-align: center;
@@ -203,9 +225,6 @@ h2 {
 	width: 40px;
 	height: 40px;
 	z-index: 0;
-
-	border-top: 1px solid gray;
-	border-left: 1px solid gray;
 }
 
 .cell.empty {
@@ -213,12 +232,12 @@ h2 {
 }
 
 .cell.grass {
-	background: green;
+	background: url('images/grass.png');
 }
 
 .player {
 	position: absolute;
-	width: 36px;
-	height: 36px;
+	width: 40px;
+	height: 40px;
 	z-index: 1;
 }

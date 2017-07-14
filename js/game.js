@@ -6,13 +6,31 @@ class Game {
 		// Variables.
 		this.self = this;
 		this.running = true;
-		this.goalCells = 50;
+		this.goalCells = GOALCELLS;
 		this.timeRemaining = GAMETIME;
 		this.gameMode = gameMode;
+		this.readyTime = 3;
 
 		// Setup.
-		// TO DO - Is there any particular reason this is a separate function?
-		this.setup();
+		this.displayReadyMessage();
+	}
+	displayReadyMessage() {
+		let game = this;
+		let readyMessage = document.getElementById('ready-message');
+		let readyTimer = document.getElementById('ready-timer');
+		readyMessage.classList.remove('hidden');
+		this.readyInterval = setInterval(function() {
+			game.readyTime--;
+			readyTimer.innerText = game.readyTime;
+			if(game.readyTime <= 0) {
+				readyMessage.classList.add('hidden');
+				game.readyTime = 3;
+			}
+		}, 1000);
+		setTimeout(function() {
+			clearInterval(game.readyInterval);
+			game.setup();
+		}, 3000);
 	}
 	setup() {
 		// Keeps track of Game Object;
@@ -33,7 +51,7 @@ class Game {
 		// Game timer
 		this.timerInterval = setInterval(function() {
 				game.timeRemaining--;
-			}, 1000);
+		}, 1000);
 
 		// Reset button.
 		Array.from(document.getElementsByClassName('reset-button')).forEach(function(e) {
@@ -191,14 +209,15 @@ class Game {
 		// Reset grid
 		this.grid.reset();
 
+		// Hide win message
+		document.getElementById('win-message').classList.add('hidden');
+
+
 		// Reset timer
 		this.timeRemaining = GAMETIME;
 		this.timerInterval = setInterval(function() {
-				game.timeRemaining--;
-			}, 1000);
-
-		// Hide win message
-		document.getElementById('win-message').classList.add('hidden');
+			game.timeRemaining--;
+		}, 1000);
 
 		// Restart the game loop.
 		this.running = true;
@@ -222,9 +241,9 @@ class Game {
 			this.player2.endCoolDown();
 			this.running = false;
 			if(this.grid.fullCells >= this.goalCells) {
-				document.getElementById('win-text').innerText = "Player 1 Wins!";
+				document.getElementById('win-text').innerText = "Creation Wins!";
 			} else {
-				document.getElementById('win-text').innerText = "Player 2 Wins!";
+				document.getElementById('win-text').innerText = "Destruction Wins!";
 			}
 			document.getElementById('win-message').classList.remove('hidden');
 		}

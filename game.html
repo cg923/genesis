@@ -21,7 +21,7 @@
 	</header>
 	<main>
 		<div class="left-column">
-			<h2>Player 1 Controls</h2>
+			<h2>Creation Controls</h2>
 			<img src="images/p1controls.png" alt="player 1 controls" />
 			<div class="skills player1">
 				<table>
@@ -50,23 +50,26 @@
 			</div>
 		</div>
 		<div id="game-board" class="game-board">
+			<div id="ready-message" class="ready-message">
+				<h2 id="ready-timer">3</h2>
+			</div>
 			<div id="timer-div" class="timer">
 				<p id="timer-clock" class="timer-text">Time: 60</p>
 			</div>
 			<div id="win-message" class ="win-div hidden">
-				<p id="win-text">Player 1 Wins!</p>
-				<button class="reset-button">Reset</button>
+				<p id="win-text">Creation Wins!</p>
+				<button class="reset-button header-button">Reset</button>
 			</div>
 			<div id="grid" class="grid">
 				<div id="player1" class="player"></div>
 				<div id="player2" class="player"></div>
 			</div>
 			<div id="win-div" class="win-condition">
-				<p id="goal-counter" class="goal">GOAL: 0/50</p>
+				<p id="goal-counter" class="goal">GOAL: 0/30</p>
 			</div>
 		</div>
 		<div class="right-column">
-			<h2>Player 2 Controls</h2>
+			<h2>Destruction Controls</h2>
 			<img src="images/p2controls.png" alt="player 2 controls" />
 			<div class="skills player2">
 				<table>
