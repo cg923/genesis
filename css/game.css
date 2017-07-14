@@ -231,7 +231,7 @@ h2 {
 }
 
 .cell.grass {
-	background: green;
+	background: url('images/grass.png');
 }
 
 .player {
