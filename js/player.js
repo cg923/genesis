@@ -179,7 +179,7 @@ class Player {
 	scramble() {
 		this.scrambled = true;
 		let player = this;
-		this.speedUpTimeOut = setTimeout(function () {
+		this.scrambleTimeOut = setTimeout(function () {
 			player.scrambled = false;
 		}, 5000);
 	}
