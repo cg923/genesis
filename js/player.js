@@ -52,6 +52,16 @@ class Player {
 		} else if (this.type === 'monster') {
 			this.htmlElement.style.background = "url('images/player2.png')";
 		}
+
+		// Skill indicator
+		this.skillIconElement = document.createElement('div');
+		this.skillIconElement.classList.add('icon');
+		this.skillIconElement.classList.add('hidden');
+		this.skillIconElement.style.background = "url('images/speed.png')";
+		this.skillIconElement.style.top = "-40px";
+		this.skillIconElement.style.left = "0px";
+		this.htmlElement.appendChild(this.skillIconElement);
+		console.log(this.skillIconElement);
 	}
 	reset(x, y) {
 		// Grid coords.
@@ -77,6 +87,7 @@ class Player {
 		clearTimeout(this.speedUpTimeOut);
 		clearTimeout(this.slowDownTimeOut);
 		clearTimeout(this.scrambleTimeOut);
+		this.skillIconElement.classList.add('hidden');
 
 		//this.update();
 	}
@@ -164,22 +175,31 @@ class Player {
 	}
 	speedUp() {
 		this.speed = 8;
+		this.skillIconElement.classList.remove('hidden');
+		this.skillIconElement.style.background = "url('images/speed.png')";
 		let player = this;
 		this.speedUpTimeOut = setTimeout(function () {
+			player.skillIconElement.classList.add('hidden');
 			player.speed = 5;
 		}, 5000);
 	}
 	slowDown() {
 		this.speed = 2;
+		this.skillIconElement.classList.remove('hidden');
+		this.skillIconElement.style.background = "url('images/slow.png')";
 		let player = this;
 		this.slowDownTimeOut = setTimeout(function () {
+			player.skillIconElement.classList.add('hidden');
 			player.speed = 5;
 		}, 5000);
 	}
 	scramble() {
 		this.scrambled = true;
+		this.skillIconElement.classList.remove('hidden');
+		this.skillIconElement.style.background = "url('images/scramble.png')";
 		let player = this;
 		this.scrambleTimeOut = setTimeout(function () {
+			player.skillIconElement.classList.add('hidden');
 			player.scrambled = false;
 		}, 5000);
 	}
