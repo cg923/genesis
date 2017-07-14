@@ -26,14 +26,20 @@ class Player {
 		// SKEELZZZ
 		this.skillCoolDown = false;
 		this.scrambled = false;
+		this.speedUpTimeOut = null;
+		this.slowDownTimeOut = null;
+		this.scrambleTimeOut = null;
+
 		if (type === 'hero') {
 			this.skill1HtmlElement = document.getElementById('p1s1');
 			this.skill2HtmlElement = document.getElementById('p1s2');
 			this.skill3HtmlElement = document.getElementById('p1s3');
+			this.cooldownTimers = Array.from(document.getElementsByClassName('p1cooldown'));
 		} else {
 			this.skill1HtmlElement = document.getElementById('p2s1');
 			this.skill2HtmlElement = document.getElementById('p2s2');
 			this.skill3HtmlElement = document.getElementById('p2s3');
+			this.cooldownTimers = Array.from(document.getElementsByClassName('p2cooldown'));
 		}
 
 		// DOM
@@ -59,16 +65,20 @@ class Player {
 		this.y = y * CELLSIZE;
 
 		// Directions and movement
-		this.speed = 5;
 		this.up = false;
 		this.down = false;
 		this.right = false;
 		this.left = false;
 
-		// Cooldowns
+		// Skills
 		this.endCoolDown();
+		this.speed = 5;
+		this.scrambled = false;
+		clearTimeout(this.speedUpTimeOut);
+		clearTimeout(this.slowDownTimeOut);
+		clearTimeout(this.scrambleTimeOut);
 
-		this.update();
+		//this.update();
 	}
 	moveUp(interrupt = true) {
 		// Prevent moving in two directions at once.
@@ -152,54 +162,56 @@ class Player {
 		this.right = false;
 		if (this.scrambled) this.down = false;
 	}
+	speedUp() {
+		this.speed = 8;
+		let player = this;
+		this.speedUpTimeOut = setTimeout(function () {
+			player.speed = 5;
+		}, 5000);
+	}
+	slowDown() {
+		this.speed = 2;
+		let player = this;
+		this.slowDownTimeOut = setTimeout(function () {
+			player.speed = 5;
+		}, 5000);
+	}
+	scramble() {
+		this.scrambled = true;
+		let player = this;
+		this.speedUpTimeOut = setTimeout(function () {
+			player.scrambled = false;
+		}, 5000);
+	}
 	startCoolDown() {
 		this.skillCoolDown = true;
 		this.skill1HtmlElement.src = "images/skill1CD.png";
 		this.skill2HtmlElement.src = "images/skill2CD.png";
 		this.skill3HtmlElement.src = "images/skill3CD.png";
 
-		if(this.type === 'hero') {
-			let cooldownTimers = Array.from(document.getElementsByClassName('p1cooldown'));
-			cooldownTimers.forEach(function(e) {
-				e.classList.remove('hidden');
+		this.cooldownTimers.forEach(function(e) {
+			e.classList.remove('hidden');
+		});
+		let player = this;
+		this.coolDownInterval = setInterval(function() {
+			player.cooldownTimers.forEach(function(e) {
+				e.textContent = parseInt(e.textContent) - 1;
 			});
-			this.coolDownInterval = setInterval(function() {
-				cooldownTimers.forEach(function(e) {
-					e.textContent = parseInt(e.textContent) - 1;
-				});
-			}, 1000);
-		} else if (this.type === 'monster') {
-			let cooldownTimers = Array.from(document.getElementsByClassName('p2cooldown'));
-			cooldownTimers.forEach(function(e) {
-				e.classList.remove('hidden');
-			});
-			this.coolDownInterval = setInterval(function() {
-				cooldownTimers.forEach(function(e) {
-					e.textContent = parseInt(e.textContent) - 1;
-				});
-			}, 1000);
-		}
+		}, 1000);
 	}
 	endCoolDown() {
 		this.skillCoolDown = false;
 		this.skill1HtmlElement.src = "images/skill1.png";
 		this.skill2HtmlElement.src = "images/skill2.png";
 		this.skill3HtmlElement.src = "images/skill3.png";
-		clearInterval(this.coolDownInterval);
 
-		if(this.type === 'hero') {
-			let cooldownTimers = Array.from(document.getElementsByClassName('p1cooldown'));
-			cooldownTimers.forEach(function(e) {
-				e.classList.add('hidden');
-				e.textContent = 10;
-			});
-		} else if (this.type === 'monster') {
-			let cooldownTimers = Array.from(document.getElementsByClassName('p2cooldown'));
-			cooldownTimers.forEach(function(e) {
-				e.classList.add('hidden');
-				e.textContent = 10;
-			});
-		}		
+		clearInterval(this.coolDownInterval);
+		this.coolDownInterval = null;
+
+		this.cooldownTimers.forEach(function(e) {
+			e.classList.add('hidden');
+			e.textContent = 10;
+		});
 	}
 	update() {
 
@@ -221,6 +233,11 @@ class Player {
 		this.gridX = Math.floor((this.x + this.htmlElement.clientWidth / 2 ) / CELLSIZE);
 		this.gridY = Math.floor((this.y + this.htmlElement.clientWidth / 2 ) / CELLSIZE);
 		this.currentCell = [this.gridX, this.gridY];
+
+		// Deal with cooldowns.
+		if (parseInt(this.cooldownTimers[0].textContent) === 0) {
+			this.endCoolDown();
+		}
 
 		// If this is an AI controlled player, handle it.
 		if ((this.gameMode === 'pvc' && this.name === 'player2') ||
