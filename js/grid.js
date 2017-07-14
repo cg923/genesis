@@ -75,4 +75,26 @@ class Grid {
 		}
 		document.getElementById('goal-counter').innerText = "GOAL: " + this.fullCells + "/" + this.game.goalCells;
 	}
+	adjacent(x,y) {
+		let cells = [];
+		for(let i = x - 1; i <= x + 1; i++) {
+			for(let j = y - 1; j <= y + 1; j++) {
+				if(i >= 0 && 
+					j >= 0 &&
+					i <= this.widthInCells - 1 &&
+					j <= this.heightInCells - 1) {
+					cells.push([i,j]);
+				}
+			}
+		}
+
+		return cells;
+	}
+	firstEmpty() {
+		cells.forEach(function(e) {
+			if (e.type === 'empty') {
+				return e;
+			}
+		});
+	}
 }

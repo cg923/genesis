@@ -4,11 +4,14 @@ class Player {
 		this.name = name;
 		this.type = type;
 		this.game = game;
+		this.gameMode = game.gameMode;
 		this.speed = 5;
 
 		// Grid coords.
 		this.gridX = x;
 		this.gridY = y;
+		this.currentCell = [x, y];
+		this.target = [x-1, y-1];
 
 		// Actual coords.
 		this.x = x * CELLSIZE;
@@ -48,6 +51,8 @@ class Player {
 		// Grid coords.
 		this.gridX = x;
 		this.gridY = y;
+		this.currentCell = [x, y];
+		this.target = [x-1, y-1];
 
 		// Actual coords.
 		this.x = x * CELLSIZE;
@@ -64,47 +69,69 @@ class Player {
 
 		this.update();
 	}
-	moveUp() {
+	moveUp(interrupt = true) {
 		// Prevent moving in two directions at once.
-		this.left = false;
-		this.right = false;
+		if (interrupt) {
+			this.left = false;
+			this.right = false;
+		}
 
 		// Move up.
 		this.up = true;
 
 		// SCRAMBLED!
 		if (this.scrambled) {
-			this.up = false;
+			if (interrupt) {
+				this.up = false;
+			}
+
 			this.left = true;
 		}
 	}
-	moveDown() {
-		this.left = false;
-		this.right = false;
+	moveDown(interrupt = true) {
+		if (interrupt) {
+			this.left = false;
+			this.right = false;
+		}
+
 		this.down = true;
 
 		if (this.scrambled) {
-			this.down = false;
+			if (interrupt) {
+				this.down = false;
+			}
+
 			this.up = true;
 		}
 	}
-	moveLeft() {
-		this.up = false;
-		this.down = false;
+	moveLeft(interrupt = true) {
+		if (interrupt) {
+			this.up = false;
+			this.down = false;
+		}
+
 		this.left = true;
 
 		if (this.scrambled) {
-			this.left = false;
+			if (interrupt) {
+				this.left = false;
+			}
+
 			this.right = true;
 		}
 	}
-	moveRight() {
-		this.up = false;
-		this.down = false;
+	moveRight(interrupt = true) {
+		if (interrupt) {
+			this.up = false;
+			this.down = false;
+		}
 		this.right = true;
 
 		if (this.scrambled) {
-			this.right = false;
+			if (interrupt) {
+				this.right = false;
+			}
+
 			this.down = true;
 		}
 	}
@@ -174,6 +201,7 @@ class Player {
 		}		
 	}
 	update() {
+
 		// Keep player on the map.
 		if (this.x < 0) this.x = 0;
 		if (this.y < 0) this.y = 0;
@@ -191,6 +219,13 @@ class Player {
 		// Update grid coords.
 		this.gridX = Math.floor((this.x + this.htmlElement.clientWidth / 2 ) / CELLSIZE);
 		this.gridY = Math.floor((this.y + this.htmlElement.clientWidth / 2 ) / CELLSIZE);
+		this.currentCell = [this.gridX, this.gridY];
+
+		// If this is an AI controlled player, handle it.
+		if ((this.gameMode === 'pvc' && this.name === 'player2') ||
+			(this.gameMode === 'cvp' && this.name === 'player1')) {
+			this.makeAIDecision();
+		}
 
 		// Tell Grid where Player is now.
 		this.game.grid.handlePosition(this.gridX, this.gridY, this.type);
@@ -198,5 +233,94 @@ class Player {
 		// Update DOM element
 		this.htmlElement.style.left = this.x + "px";
 		this.htmlElement.style.top = this.y + "px";
+	}
+	makeAIDecision() {
+
+		// Use a skill if available and a few seconds have passed.
+		if (this.game.timeRemaining <= GAMETIME - 3 &&
+			!this.skillCoolDown) {
+			let whichSkill = Math.floor(Math.random() * (100 - 1) + 1);
+			switch (whichSkill) {
+				case 1:
+					Skill.fire('speed', this, game.otherPlayer(this.name));
+					break;
+				case 2:
+					Skill.fire('slow', this, game.otherPlayer(this.name));
+					break;
+				case 3:
+					Skill.fire('scramble', this, game.otherPlayer(this.name));
+					break;
+				default:
+					break;
+			}
+		}
+
+		// Has reached target and it's time to calculate a new target.
+		if (this.currentCell[0] === this.target[0] &&
+			this.currentCell[1] === this.target[1]) {
+
+			// Get adjacent cells.
+			let adjacent = this.game.grid.adjacent(this.gridX, this.gridY);
+
+			// If this is a monster, check to see if any are grass.
+			if(this.type === 'monster') {
+				let player = this;
+				let foundGrass = false;
+				adjacent.forEach(function(e) {
+					if (player.game.grid.cells[e[0]][e[1]].type === 'grass') {
+						player.target = [e[0],e[1]];
+						foundGrass = true;					
+					}
+				});
+
+				if (!foundGrass) {
+					this.target = this.game.player1.currentCell;
+				}
+			}
+
+			// If this is a player, check to see if any are empty.
+			if(this.type === 'hero') {
+				let player = this;
+				let foundEmpty = false;
+				adjacent.forEach(function(e) {
+					if (player.game.grid.cells[e[0]][e[1]].type === 'empty') {
+						player.target = [e[0],e[1]];
+						foundEmpty = true;						
+					}
+				});
+
+				if (!foundEmpty) {
+					this.target = this.game.grid.firstEmpty();
+				}
+			}
+		} else {
+			// Move left
+			if(this.currentCell[0] > this.target[0]) {
+				this.moveLeft(false);
+			} else {
+				this.stopLeft();
+			}
+
+			// Move right
+			if(this.currentCell[0] < this.target[0]) {
+				this.moveRight(false);
+			} else {
+				this.stopRight();
+			}
+
+			// Move down.
+			if(this.currentCell[1] < this.target[1]) {
+				this.moveDown(false);
+			} else {
+				this.stopDown();
+			}
+
+			// Move up.
+			if(this.currentCell[1] > this.target[1]) {
+				this.moveUp(false);
+			} else {
+				this.stopUp();
+			}
+		}
 	}
 }

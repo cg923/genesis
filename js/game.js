@@ -1,5 +1,5 @@
 class Game {
-	constructor() {
+	constructor(gameMode) {
 		// DOM setup
 		this.htmlElement = document.getElementById('game-board');
 
@@ -8,6 +8,7 @@ class Game {
 		this.running = true;
 		this.goalCells = 50;
 		this.timeRemaining = GAMETIME;
+		this.gameMode = gameMode;
 
 		// Setup.
 		// TO DO - Is there any particular reason this is a separate function?
@@ -43,46 +44,88 @@ class Game {
 		document.addEventListener('keydown', function(element) {
 			switch(element.key) {
 				case 'w':
-					game.player1.moveUp();
+					if( game.gameMode === 'pvc' ||
+						game.gameMode === 'pvp') {
+						game.player1.moveUp();
+					}
 					break;
 				case 'a':
-					game.player1.moveLeft();
+					if( game.gameMode === 'pvc' ||
+						game.gameMode === 'pvp') {
+						game.player1.moveLeft();
+					}					
 					break;
 				case 's':
-					game.player1.moveDown();
+					if( game.gameMode === 'pvc' ||
+						game.gameMode === 'pvp') {
+						game.player1.moveDown();
+					}
 					break;
 				case 'd':
-					game.player1.moveRight();
+					if( game.gameMode === 'pvc' ||
+						game.gameMode === 'pvp') {
+						game.player1.moveRight();
+					}
 					break;
 				case 'i':
-					game.player2.moveUp();
+					if( game.gameMode === 'pvp' ||
+						game.gameMode === 'cvp') {
+						game.player2.moveUp();
+					}
 					break;
 				case 'j':
-					game.player2.moveLeft();
+					if( game.gameMode === 'pvp' ||
+						game.gameMode === 'cvp') {
+						game.player2.moveLeft();
+					}
 					break;
 				case 'k':
-					game.player2.moveDown();
+					if( game.gameMode === 'pvp' ||
+						game.gameMode === 'cvp') {
+						game.player2.moveDown();
+					}
 					break;
 				case 'l':
-					game.player2.moveRight();
+					if( game.gameMode === 'pvp' ||
+						game.gameMode === 'cvp') {
+						game.player2.moveRight();
+					}
 					break;
 				case '1':
-					Skill.fire('speed', game.player1, game.player2);
+					if( game.gameMode === 'pvc' ||
+						game.gameMode === 'pvp') {
+						Skill.fire('speed', game.player1, game.player2);
+					}
 					break;
 				case '2':
-					Skill.fire('slow', game.player1, game.player2);
+					if( game.gameMode === 'pvc' ||
+						game.gameMode === 'pvp') {
+						Skill.fire('slow', game.player1, game.player2);
+					}
 					break;
 				case '3':
-					Skill.fire('scramble', game.player1, game.player2);
+					if( game.gameMode === 'pvc' ||
+						game.gameMode === 'pvp') {
+						Skill.fire('scramble', game.player1, game.player2);
+					}
 					break;
 				case '8':
-					Skill.fire('speed', game.player2, game.player1);
+					if( game.gameMode === 'pvp' ||
+						game.gameMode === 'cvp') {
+						Skill.fire('speed', game.player2, game.player1);
+					}
 					break;
 				case '9':
-					Skill.fire('slow', game.player2, game.player1);
+					if( game.gameMode === 'pvp' ||
+						game.gameMode === 'cvp') {
+						Skill.fire('slow', game.player2, game.player1);
+					}
 					break;
 				case '0':
-					Skill.fire('scramble', game.player2, game.player1);
+					if( game.gameMode === 'pvp' ||
+						game.gameMode === 'cvp') {
+						Skill.fire('scramble', game.player2, game.player1);
+					}
 					break;
 				default:
 					break;
@@ -128,6 +171,13 @@ class Game {
 	reset() {
 		this.running = false;
 
+		if (this.gameLoop) {
+			clearInterval(this.gameLoop);
+		}
+		if (this.timerInterval) {
+			clearInterval(this.timerInterval);
+		}
+
 		// If the player objects don't exist it means setup() hasn't been called.
 		if (!this.player1 || !this.player2 || !this.grid) {
 			this.setup();
@@ -168,6 +218,8 @@ class Game {
 		// Game is finished
 		if (this.timeRemaining === 0) {
 			clearInterval(this.timerInterval);
+			this.player1.endCoolDown();
+			this.player2.endCoolDown();
 			this.running = false;
 			if(this.grid.fullCells >= this.goalCells) {
 				document.getElementById('win-text').innerText = "Player 1 Wins!";
@@ -181,5 +233,12 @@ class Game {
 		})
 
 		document.getElementById('timer-clock').textContent = "TIME: " + this.timeRemaining;
+	}
+	otherPlayer(from) {
+		if (from === 'player1') {
+			return this.player2;
+		} else {
+			return this.player1;
+		}
 	}
 }

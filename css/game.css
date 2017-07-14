@@ -1,28 +1,89 @@
 
-/* Display */
+/* Website Display */
 * {
 	margin: 0;
 	padding: 0;
 	font-family: 'Roboto', sans-serif;
 	font-weight: 900;
+	color: white;
 }
+
+body {
+	background: black;
+}
+
+/* Game display */
+
 header {
 	display: block;
 	width: 100%;
-	height: 50px;
+	height: 120px;
 
-	background: blue;
+	background: #487399;
+}
+
+.header-content {
+	display: block;
+	width: 300px;
+	margin: 0px auto;
+	padding-top: 20px;
+}
+
+header h1 {
+	display: block;
+	width: 300px;
+	margin: 0 auto;
+
+	color: white;
+	font-size: 40px;
+	text-align: center;
+}
+
+nav {
+	display: block;
+	width: 300px;
+	margin: 0 auto;
+}
+
+form {
+	display: inline;
+}
+
+.buttons {
+	display: block;
+	width: 250px;
+	margin: 0 auto;
+}
+
+.header-button {
+	width: 100px;
+	height: 50px;
+	margin: 0 10px;
+
+	background: #ff832f;
+	font-size: 26px;
+	color: white;
+	border: 2px solid black;
+	border-radius: 5px;
+}
+
+/* Game Display */
+
+main {
+	display: block;
+	width: 1320px;
+	margin: 0 auto;
 }
 
 .left-column {
 	float: left;
-	width: 280px;
+	width: 240px;
 	margin: 10px;
 }
 
 .right-column {
 	float: left;
-	width: 280px;
+	width: 240px;
 	margin: 10px;
 }
 
@@ -93,15 +154,6 @@ header {
 	visibility: hidden;
 }
 
-.reset-button {
-	width: 100px;
-	height: 30px;
-}
-
-footer {
-	clear: left;
-}
-
 .win-condition {
 	display: block;
 	position: relative;
@@ -123,12 +175,13 @@ h2 {
 	margin: 10px 0;
 }
 
-img {
+.skill-label img {
 	display: inline-block;
 	margin: 10px 0 0 -10px;
 }
 
 /* Game objects */
+
 .game-board {
 	position: relative;
 	float: left;
