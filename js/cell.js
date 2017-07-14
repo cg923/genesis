@@ -19,9 +19,12 @@ class Cell {
 		if(this.type === 'empty') {
 			this.htmlElement.classList.remove('grass');
 			this.htmlElement.classList.add('empty');
+			this.htmlElement.style.background = "black";
 		} else if(this.type === 'grass') {
 			this.htmlElement.classList.remove('empty');
 			this.htmlElement.classList.add('grass');
+			this.htmlElement.style.background = "url('images/grass.png')";
+
 		} else {
 			console.log("invalid cell type!");
 		}
