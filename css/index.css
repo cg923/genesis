@@ -11,12 +11,13 @@ body {
 
 header {
 	height: 120px;
+	background: #222;
 	box-shadow: 100px 300px 500px 6px #fff;
 }
 
 h1 {
 	display: block;
-	width: 300px;
+	width: 1000px;
 	margin: 0 auto;
 	padding: 30px;
 
@@ -24,6 +25,7 @@ h1 {
 	font-size: 50px;
 	font-weight: 900;
 	color: white;
+	letter-spacing: 0.4em;
 }
 
 .player-select-area {
