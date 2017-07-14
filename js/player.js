@@ -42,9 +42,9 @@ class Player {
 		this.htmlElement.style.top = this.y + "px";
 
 		if (this.type === 'hero') {
-			this.htmlElement.style.background = 'blue';
+			this.htmlElement.style.background = "url('images/player1.png')";
 		} else if (this.type === 'monster') {
-			this.htmlElement.style.background = 'red';
+			this.htmlElement.style.background = "url('images/player2.png')";
 		}
 	}
 	reset(x, y) {
@@ -58,7 +58,8 @@ class Player {
 		this.x = x * CELLSIZE;
 		this.y = y * CELLSIZE;
 
-		// Directions
+		// Directions and movement
+		this.speed = 5;
 		this.up = false;
 		this.down = false;
 		this.right = false;
@@ -239,7 +240,7 @@ class Player {
 		// Use a skill if available and a few seconds have passed.
 		if (this.game.timeRemaining <= GAMETIME - 3 &&
 			!this.skillCoolDown) {
-			let whichSkill = Math.floor(Math.random() * (100 - 1) + 1);
+			let whichSkill = Math.floor(Math.random() * (200 - 1) + 1);
 			switch (whichSkill) {
 				case 1:
 					Skill.fire('speed', this, game.otherPlayer(this.name));

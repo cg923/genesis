@@ -216,8 +216,8 @@ class Game {
 		// Reset timer
 		this.timeRemaining = GAMETIME;
 		this.timerInterval = setInterval(function() {
-				game.timeRemaining--;
-			}, 1000);
+			game.timeRemaining--;
+		}, 1000);
 
 		// Restart the game loop.
 		this.running = true;
