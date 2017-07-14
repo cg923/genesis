@@ -236,6 +236,25 @@ class Player {
 	}
 	makeAIDecision() {
 
+		// Use a skill if available and a few seconds have passed.
+		if (this.game.timeRemaining <= GAMETIME - 3 &&
+			!this.skillCoolDown) {
+			let whichSkill = Math.floor(Math.random() * (100 - 1) + 1);
+			switch (whichSkill) {
+				case 1:
+					Skill.fire('speed', this, game.otherPlayer(this.name));
+					break;
+				case 2:
+					Skill.fire('slow', this, game.otherPlayer(this.name));
+					break;
+				case 3:
+					Skill.fire('scramble', this, game.otherPlayer(this.name));
+					break;
+				default:
+					break;
+			}
+		}
+
 		// Has reached target and it's time to calculate a new target.
 		if (this.currentCell[0] === this.target[0] &&
 			this.currentCell[1] === this.target[1]) {
@@ -271,7 +290,7 @@ class Player {
 				});
 
 				if (!foundEmpty) {
-					this.target = this.game.player2.currentCell;
+					this.target = this.game.grid.firstEmpty();
 				}
 			}
 		} else {

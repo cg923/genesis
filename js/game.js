@@ -234,4 +234,11 @@ class Game {
 
 		document.getElementById('timer-clock').textContent = "TIME: " + this.timeRemaining;
 	}
+	otherPlayer(from) {
+		if (from === 'player1') {
+			return this.player2;
+		} else {
+			return this.player1;
+		}
+	}
 }
