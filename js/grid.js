@@ -37,7 +37,7 @@ class Grid {
 		for(let x = 1; x < this.widthInCells + 1; x++) {
 			this.cells[x-1] = [];
 			for(let y = 1; y < this.heightInCells + 1; y++) {
-				this.cells[x-1][y-1] = new Cell(x-1, y-1);
+				this.cells[x-1][y-1] = new Cell(x-1, y-1, this);
 			}
 		}
 
@@ -75,7 +75,7 @@ class Grid {
 		}
 		document.getElementById('goal-counter').innerText = "GOAL: " + this.fullCells + "/" + this.game.goalCells;
 	}
-	adjacent(x,y) {
+	adjacent(x, y) {
 		let cells = [];
 		for(let i = x - 1; i <= x + 1; i++) {
 			for(let j = y - 1; j <= y + 1; j++) {
@@ -89,6 +89,9 @@ class Grid {
 		}
 
 		return cells;
+	}
+	cell(x, y) {
+		return this.cells[x][y];
 	}
 	firstEmpty() {
 		this.cells.forEach(function(e) {
