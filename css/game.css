@@ -30,43 +30,60 @@ header {
 }
 
 header h1 {
-	display: inline-block;
-	position: relative;
-	top: 16px;
-	margin: 0;
+	display: block;
+	width: 300px;
+	margin: 0 auto;
 
 	color: white;
+	font-size: 40px;
+	text-align: center;
 }
 
 nav {
-	display: inline-block;
-	margin: 0 10px;
+	display: block;
+	width: 300px;
+	margin: 0 auto;
 }
 
-.reset-button {
+form {
+	display: inline;
+}
+
+.buttons {
+	display: block;
+	width: 250px;
+	margin: 0 auto;
+}
+
+.header-button {
 	width: 100px;
 	height: 50px;
-	position: relative;
-	top: 12px;
+	margin: 0 10px;
 
 	background: #ff832f;
 	font-size: 26px;
 	color: white;
-	border: none;
+	border: 2px solid black;
 	border-radius: 5px;
 }
 
 /* Game Display */
 
+main {
+	display: block;
+	width: 1320px;
+	margin: 0 auto;
+}
+
 .left-column {
 	float: left;
-	width: 280px;
+	width: 240px;
 	margin: 10px;
 }
 
 .right-column {
 	float: left;
-	width: 280px;
+	width: 240px;
 	margin: 10px;
 }
 
