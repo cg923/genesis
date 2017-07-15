@@ -134,6 +134,25 @@ class Player {
 			this.right = true;
 		}
 	}
+	moveRandom() {
+		let whichDirection = Math.floor(Math.random() * (4 - 1) + 1);
+		switch (whichDirection) {
+			case 1:
+				this.moveLeft();
+				break;
+			case 2:
+				this.moveRight();
+				break;
+			case 3:
+				this.moveUp();
+				break;
+			case 4:
+				this.moveDown();
+				break;
+			default:
+				console.log('Invalid direction calculated');
+		}
+	}
 	stopUp() {
 		if (this.scrambled) {
 			this.left = false;
@@ -299,24 +318,24 @@ class Player {
 			// Get adjacent cells.
 			let adjacent = this.game.grid.adjacent(this.gridX, this.gridY);
 
-			// If this is a monster, check to see if any are grass.
+			// If this is a monster, check to see if any adjacent are grass.
 			if(this.type === 'monster') {
 				let player = this;
 				let foundGrass = false;
 				adjacent.forEach(function(e) {
 					if (player.game.grid.cells[e[0]][e[1]].type === 'grass') {
-						console.log('found!');
 						player.target = [e[0],e[1]];
 						foundGrass = true;					
 					}
 				});
 
 				if (!foundGrass) {
-					this.target = this.game.grid.firstGrass();
+					this.target[0] = this.game.player1.gridX;
+					this.target[1] = this.game.player1.gridY;
 				}
 			}
 
-			// If this is a player, check to see if any are empty.
+			// If this is a player, check to see if any adjacent are empty.
 			if(this.type === 'hero') {
 				let player = this;
 				let foundEmpty = false;
@@ -326,9 +345,19 @@ class Player {
 						foundEmpty = true;						
 					}
 				});
-
+				// If no adjacent cells are empty, move randomly.
 				if (!foundEmpty) {
-					this.target = this.game.grid.firstEmpty();
+					if (this.currentCell[0] === 0) { 
+						this.moveRight(); 
+					} else if (this.currentCell[0] === this.game.grid.widthInCells - 1) { 
+						this.moveLeft(); 
+					} else if (this.currentCell[1] === 0) {
+						this.moveDown();
+					} else if (this.currentCell[1] === this.game.grid.heightInCells - 1) {
+						this.moveUp();
+					} else {
+						this.moveRandom();
+					}
 				}
 			}
 		} else {

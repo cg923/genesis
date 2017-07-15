@@ -1,5 +1,5 @@
 
 // Game constants.
-const GOALCELLS = 30;
+const GOALCELLS = 50;
 const CELLSIZE = 40;
 const GAMETIME = 60;

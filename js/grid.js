@@ -94,21 +94,7 @@ class Grid {
 		return this.cells[x][y];
 	}
 	firstEmpty() {
-		this.cells.forEach(function(e) {
-			e.forEach(function(e) {
-				if (e.fortype === 'empty') {
-					return e;
-				}
-			});
-		});
 	}
 	firstGrass() {
-		this.cells.forEach(function(e) {
-			e.forEach(function(e) {
-				if (e.fortype === 'grass') {
-					return e;
-				}
-			});
-		});
 	}
 }
