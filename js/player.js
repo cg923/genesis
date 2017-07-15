@@ -61,7 +61,6 @@ class Player {
 		this.skillIconElement.style.top = "-40px";
 		this.skillIconElement.style.left = "0px";
 		this.htmlElement.appendChild(this.skillIconElement);
-		console.log(this.skillIconElement);
 	}
 	reset(x, y) {
 		// Grid coords.
@@ -91,87 +90,77 @@ class Player {
 
 		//this.update();
 	}
-	moveUp(interrupt = true) {
-		// Prevent moving in two directions at once.
-		if (interrupt) {
-			this.left = false;
-			this.right = false;
-		}
-
-		// Move up.
-		this.up = true;
-
+	moveUp() {
 		// SCRAMBLED!
 		if (this.scrambled) {
-			if (interrupt) {
-				this.up = false;
-			}
-
+			//this.up = false;
 			this.left = true;
-		}
-	}
-	moveDown(interrupt = true) {
-		if (interrupt) {
+		} else {
+			// Prevent moving in two directions at once.
 			this.left = false;
 			this.right = false;
-		}
 
-		this.down = true;
-
-		if (this.scrambled) {
-			if (interrupt) {
-				this.down = false;
-			}
-
+			// Move up.
 			this.up = true;
 		}
 	}
-	moveLeft(interrupt = true) {
-		if (interrupt) {
-			this.up = false;
-			this.down = false;
-		}
-
-		this.left = true;
-
+	moveDown() {
 		if (this.scrambled) {
-			if (interrupt) {
-				this.left = false;
-			}
-
-			this.right = true;
-		}
-	}
-	moveRight(interrupt = true) {
-		if (interrupt) {
-			this.up = false;
-			this.down = false;
-		}
-		this.right = true;
-
-		if (this.scrambled) {
-			if (interrupt) {
-				this.right = false;
-			}
-
+			//this.down = false;
+			this.up = true;
+		} else {
+			this.left = false;
+			this.right = false;
 			this.down = true;
 		}
 	}
+	moveLeft() {
+		if (this.scrambled) {
+			//this.left = false;
+			this.right = true;
+		} else {
+			this.up = false;
+			this.down = false;
+			this.left = true;
+		}
+	}
+	moveRight() {
+		if (this.scrambled) {
+			//this.right = false;
+			this.down = true;
+		} else {
+			this.up = false;
+			this.down = false;
+			this.right = true;
+		}
+	}
 	stopUp() {
-		this.up = false;
-		if (this.scrambled) this.left = false;
+		if (this.scrambled) {
+			this.left = false;
+		} else {
+			this.up = false;
+		}
 	}
 	stopDown() {
-		this.down = false;
-		if (this.scrambled) this.up = false;
+		if (this.scrambled) {
+			this.up = false;
+		} else {
+			this.down = false;
+		}
 	}
 	stopLeft() {
-		this.left = false;
-		if (this.scrambled) this.right = false;
+		if (this.scrambled) {
+			this.right = false;
+		} else {
+			this.left = false;
+		}
 	}
 	stopRight() {
-		this.right = false;
-		if (this.scrambled) this.down = false;
+		if (this.scrambled) {
+			this.down = false;
+		} else {
+			this.right = false;
+		}
 	}
 	speedUp() {
 		this.speed = 8;
@@ -195,13 +184,21 @@ class Player {
 	}
 	scramble() {
 		this.scrambled = true;
+		this.left = false;
+		this.right = false;
+		this.up = false;
+		this.down = false;
 		this.skillIconElement.classList.remove('hidden');
 		this.skillIconElement.style.background = "url('images/scramble.png')";
 		let player = this;
 		this.scrambleTimeOut = setTimeout(function () {
 			player.skillIconElement.classList.add('hidden');
 			player.scrambled = false;
-		}, 5000);
+			player.left = false;
+			player.right = false;
+			player.up = false;
+			player.down = false;
+		}, 2000);
 	}
 	startCoolDown() {
 		this.skillCoolDown = true;
@@ -280,6 +277,7 @@ class Player {
 			let whichSkill = Math.floor(Math.random() * (200 - 1) + 1);
 			switch (whichSkill) {
 				case 1:
+					if (this.scrambled) { whichSkill = 2; }
 					Skill.fire('speed', this, game.otherPlayer(this.name));
 					break;
 				case 2:
@@ -294,8 +292,9 @@ class Player {
 		}
 
 		// Has reached target and it's time to calculate a new target.
-		if (this.currentCell[0] === this.target[0] &&
-			this.currentCell[1] === this.target[1]) {
+		if (!this.target ||
+			(this.currentCell[0] === this.target[0] &&
+			this.currentCell[1] === this.target[1])) {
 
 			// Get adjacent cells.
 			let adjacent = this.game.grid.adjacent(this.gridX, this.gridY);
@@ -306,13 +305,14 @@ class Player {
 				let foundGrass = false;
 				adjacent.forEach(function(e) {
 					if (player.game.grid.cells[e[0]][e[1]].type === 'grass') {
+						console.log('found!');
 						player.target = [e[0],e[1]];
 						foundGrass = true;					
 					}
 				});
 
 				if (!foundGrass) {
-					this.target = this.game.player1.currentCell;
+					this.target = this.game.grid.firstGrass();
 				}
 			}
 
@@ -334,28 +334,28 @@ class Player {
 		} else {
 			// Move left
 			if(this.currentCell[0] > this.target[0]) {
-				this.moveLeft(false);
+				this.moveLeft();
 			} else {
 				this.stopLeft();
 			}
 
 			// Move right
 			if(this.currentCell[0] < this.target[0]) {
-				this.moveRight(false);
+				this.moveRight();
 			} else {
 				this.stopRight();
 			}
 
 			// Move down.
 			if(this.currentCell[1] < this.target[1]) {
-				this.moveDown(false);
+				this.moveDown();
 			} else {
 				this.stopDown();
 			}
 
 			// Move up.
 			if(this.currentCell[1] > this.target[1]) {
-				this.moveUp(false);
+				this.moveUp();
 			} else {
 				this.stopUp();
 			}
