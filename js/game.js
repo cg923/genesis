@@ -50,7 +50,7 @@ class Game {
 
 		// Game timer
 		this.timerInterval = setInterval(function() {
-				game.timeRemaining--;
+			game.timeRemaining--;
 		}, 1000);
 
 		// Reset button.
@@ -210,7 +210,7 @@ class Game {
 		this.grid.reset();
 
 		// Hide win message
-		document.getElementById('win-message').classList.add('hidden');
+		document.getElementById('win-div').classList.add('hidden');
 
 
 		// Reset timer
@@ -245,13 +245,13 @@ class Game {
 			} else {
 				document.getElementById('win-text').innerText = "Destruction Wins!";
 			}
-			document.getElementById('win-message').classList.remove('hidden');
+			document.getElementById('win-div').classList.remove('hidden');
 		}
 		this.entities.forEach(function(element) {
 			element.update();
 		})
 
-		document.getElementById('timer-clock').textContent = "TIME: " + this.timeRemaining;
+		document.getElementById('game-clock').textContent = "TIME: " + this.timeRemaining;
 	}
 	otherPlayer(from) {
 		if (from === 'player1') {

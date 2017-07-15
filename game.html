@@ -9,6 +9,9 @@
 	<header>
 		<div class="header-content">
 			<h1>GENESIS</h1>
+			<!-- The 'Reset' button will immediately reset the game
+				and the 'Menu' button will bring the user back to index.html
+				to select their game type -->
 			<nav>
 				<div class="buttons">
 					<button class="reset-button header-button">Reset</button>
@@ -49,23 +52,33 @@
 				</table>
 			</div>
 		</div>
+		<!-- The items inside "game-board" do not necessary appear on screen in the
+			order one might assume from this file. -->
 		<div id="game-board" class="game-board">
+			<!-- 'ready-message' is a pre-game countdown that gives
+				the players a few seconds to get their bearings. -->
 			<div id="ready-message" class="ready-message">
 				<h2 id="ready-timer">3</h2>
 			</div>
-			<div id="timer-div" class="timer">
-				<p id="timer-clock" class="timer-text">Time: 60</p>
+			<!-- The time that displays at the top of the gameplay area. -->
+			<div id="timer-div" class="message-box">
+				<p id="game-clock">TIME: 60</p>
 			</div>
-			<div id="win-message" class ="win-div hidden">
+			<!-- The message that displays at the end of the game telling who won. -->
+			<div id="win-div" class ="message-box centered-box hidden">
 				<p id="win-text">Creation Wins!</p>
 				<button class="reset-button header-button">Reset</button>
 			</div>
+			<!-- The 'grid' is the gameplay area, essentially.  Its JS correlation is
+				also called 'grid' and handles all the cells that make up the gameboard. -->
 			<div id="grid" class="grid">
+				<!-- Player 1 is always Creation and Player 2 is always Destruction -->
 				<div id="player1" class="player"></div>
 				<div id="player2" class="player"></div>
 			</div>
-			<div id="win-div" class="win-condition">
-				<p id="goal-counter" class="goal">GOAL: 0/30</p>
+			<!-- This tells the user how close Creation is to reaching their goal -->
+			<div id="goal-div" class="message-box bottom-box">
+				<p id="goal-counter" class="goal">GOAL: 0/50</p>
 			</div>
 		</div>
 		<div class="right-column">
