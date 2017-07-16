@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>G E N E S I S</title>
-	<link rel="stylesheet" type="text/css" href="css/game.css">
+	<link rel="stylesheet" href="css/style.css">
 	<link href="https://fonts.googleapis.com/css?family=Roboto:900" rel="stylesheet">
 </head>
 <body>
@@ -13,39 +13,37 @@
 				and the 'Menu' button will bring the user back to index.html
 				to select their game type -->
 			<nav>
-				<div class="buttons">
-					<button class="reset-button header-button">Reset</button>
-					<form action="index.html">
-					    <button class="menu-button header-button" type="submit">Menu</button>
-					</form>
-				</div>
+				<button class="reset-button header-button">Reset</button>
+				<form action="index.html">
+				    <button class="menu-button header-button" type="submit">Menu</button>
+				</form>
 			</nav>
 		</div>
 	</header>
 	<main>
-		<div class="left-column">
+		<div class="column">
 			<h2>Creation Controls</h2>
-			<img src="images/p1controls.png" alt="player 1 controls" />
-			<div class="skills player1">
+			<img src="images/p1controls.png" alt="player 1 controls">
+			<div class="skills player1-controls">
 				<table>
 					<tr>
 						<td><p class="skill-label">1</p></td>
 						<td>
-							<img id="p1s1" src="images/skill1.png" alt="player 1 skill 1" />
+							<img id="p1s1" src="images/skill1.png" alt="player 1 skill 1">
 							<p class="cooldown-clock p1cooldown hidden">10</p>
 						</td>
 					</tr>
 					<tr>
 						<td><p class="skill-label">2</p></td>
 						<td>
-							<img id="p1s2" src="images/skill2.png" alt="player 1 skill 2" />
+							<img id="p1s2" src="images/skill2.png" alt="player 1 skill 2">
 							<p class="cooldown-clock p1cooldown hidden">10</p>
 						</td>
 					</tr>
 					<tr>
 						<td><p class="skill-label">3</p></td>
 						<td>
-							<img id="p1s3" src="images/skill3.png" alt="player 1 skill 3" />
+							<img id="p1s3" src="images/skill3.png" alt="player 1 skill 3">
 							<p class="cooldown-clock p1cooldown hidden">10</p>
 						</td>
 					</tr>
@@ -61,8 +59,8 @@
 				<h2 id="ready-timer">3</h2>
 			</div>
 			<!-- The time that displays at the top of the gameplay area. -->
-			<div id="timer-div" class="message-box">
-				<p id="game-clock">TIME: 60</p>
+			<div id="timer-div" class="message-box top-box">
+				<p id="game-clock" class="message-box-text">TIME: 60</p>
 			</div>
 			<!-- The message that displays at the end of the game telling who won. -->
 			<div id="win-div" class ="message-box centered-box hidden">
@@ -78,31 +76,31 @@
 			</div>
 			<!-- This tells the user how close Creation is to reaching their goal -->
 			<div id="goal-div" class="message-box bottom-box">
-				<p id="goal-counter" class="goal">GOAL: 0/50</p>
+				<p id="goal-counter" class="message-box-text">GOAL: 0/50</p>
 			</div>
 		</div>
-		<div class="right-column">
+		<div class="column">
 			<h2>Destruction Controls</h2>
-			<img src="images/p2controls.png" alt="player 2 controls" />
-			<div class="skills player2">
+			<img src="images/p2controls.png" alt="player 2 controls">
+			<div class="skills player2-controls">
 				<table>
 					<tr>
 						<td>
-							<img id="p2s1" src="images/skill1.png" alt="player 2 skill 1" />
+							<img id="p2s1" src="images/skill1.png" alt="player 2 skill 1">
 							<p class="cooldown-clock p2cooldown hidden">10</p>
 						</td>
 						<td><p class="skill-label">8</p></td>
 					</tr>
 					<tr>
 						<td>
-							<img id="p2s2" src="images/skill2.png" alt="player 2 skill 2" />
+							<img id="p2s2" src="images/skill2.png" alt="player 2 skill 2">
 							<p class="cooldown-clock p2cooldown hidden">10</p>
 						</td>
 						<td><p class="skill-label">9</p></td>
 					</tr>
 					<tr>
 						<td>
-							<img id="p2s3" src="images/skill3.png" alt="player 2 skill 3" />
+							<img id="p2s3" src="images/skill3.png" alt="player 2 skill 3">
 							<p class="cooldown-clock p2cooldown hidden">10</p>
 						</td>
 						<td><p class="skill-label">0</p></td>
@@ -111,7 +109,7 @@
 			</div>
 		</div>
 	</main>
-	<!-- TO DO: This is almost certainly not best practices -->
+	<!-- TODO: This is almost certainly not best practices -->
 	<script src="js/globals.js"></script>
 	<script src="js/cell.js"></script>
 	<script src="js/grid.js"></script>

@@ -2,26 +2,26 @@
 <html>
 <head>
 	<title>G E N E S I S</title>
-	<link rel="stylesheet" type="text/css" href="css/index.css">
+	<link rel="stylesheet" href="css/style.css">
 	<link href="https://fonts.googleapis.com/css?family=Roboto:300,900" rel="stylesheet">
 </head>
 <body>
 	<header>
 		<h1>G E N E S I S</h1>
 	</header>
-	<div class="player-select-area">
+	<div class="option-select-area">
 		<div class="player-select-options">
-			<form id="gameplay" action="game.html" method="GET">
-				<div class="one-player game-option">
-					<a href="game.html?type=pvc"><img src="images/pvm.png" alt="Player Vs. Computer" /></a>
-				</div>
-				<div class="two-player game-option">
-					<a href="game.html?type=pvp"><img src="images/pvp.png" alt="Player Vs. Player" /></a>
-				</div>
-				<div class="one-player game-option">
-					<a href="game.html?type=cvp"><img src="images/mvp.png" alt="Computer Vs. Player" /></a>
-				</div>
-			</form>
+      <!-- There are three game modes, and the following options let the user select
+      which one they'd like to play -->
+			<div class="game-option">
+				<a href="game.html?type=pvc"><img src="images/pvm.png" alt="Player Vs. Computer"></a>
+			</div>
+			<div class="game-option">
+				<a href="game.html?type=pvp"><img src="images/pvp.png" alt="Player Vs. Player"></a>
+			</div>
+			<div class="game-option">
+				<a href="game.html?type=cvp"><img src="images/mvp.png" alt="Computer Vs. Player"></a>
+			</div>
 		</div>
 	</div>
 	<div class="description">
