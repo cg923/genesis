@@ -1,10 +1,10 @@
 
 class Player {
 	constructor(name, x, y, type, game) {
+		// General variables.
 		this.name = name;
 		this.type = type;
 		this.game = game;
-		this.gameMode = game.gameMode;
 		this.speed = 5;
 
 		// Grid coords.
@@ -13,7 +13,7 @@ class Player {
 		this.currentCell = [x, y];
 		this.target = [x-1, y-1];
 
-		// Actual coords.
+		// Actual (pixel) coords.
 		this.x = x * CELLSIZE;
 		this.y = y * CELLSIZE;
 
@@ -30,6 +30,7 @@ class Player {
 		this.slowDownTimeOut = null;
 		this.scrambleTimeOut = null;
 
+		// Relate this player to its skill DOM elements.
 		if (type === 'hero') {
 			this.skill1HtmlElement = document.getElementById('p1s1');
 			this.skill2HtmlElement = document.getElementById('p1s2');
@@ -53,7 +54,7 @@ class Player {
 			this.htmlElement.style.background = "url('images/player2.png')";
 		}
 
-		// Skill indicator
+		// Current skill effect indicator
 		this.skillIconElement = document.createElement('div');
 		this.skillIconElement.classList.add('icon');
 		this.skillIconElement.classList.add('hidden');
@@ -62,6 +63,7 @@ class Player {
 		this.skillIconElement.style.left = "0px";
 		this.htmlElement.appendChild(this.skillIconElement);
 	}
+
 	reset(x, y) {
 		// Grid coords.
 		this.gridX = x;
@@ -87,9 +89,8 @@ class Player {
 		clearTimeout(this.slowDownTimeOut);
 		clearTimeout(this.scrambleTimeOut);
 		this.skillIconElement.classList.add('hidden');
-
-		//this.update();
 	}
+
 	moveUp() {
 		// SCRAMBLED!
 		if (this.scrambled) {
@@ -104,9 +105,9 @@ class Player {
 			this.up = true;
 		}
 	}
+
 	moveDown() {
 		if (this.scrambled) {
-			//this.down = false;
 			this.up = true;
 		} else {
 			this.left = false;
@@ -114,9 +115,9 @@ class Player {
 			this.down = true;
 		}
 	}
+
 	moveLeft() {
 		if (this.scrambled) {
-			//this.left = false;
 			this.right = true;
 		} else {
 			this.up = false;
@@ -124,9 +125,9 @@ class Player {
 			this.left = true;
 		}
 	}
+
 	moveRight() {
 		if (this.scrambled) {
-			//this.right = false;
 			this.down = true;
 		} else {
 			this.up = false;
@@ -134,6 +135,7 @@ class Player {
 			this.right = true;
 		}
 	}
+
 	moveRandom() {
 		let whichDirection = Math.floor(Math.random() * (4 - 1) + 1);
 		switch (whichDirection) {
@@ -153,6 +155,7 @@ class Player {
 				console.log('Invalid direction calculated');
 		}
 	}
+
 	stopUp() {
 		if (this.scrambled) {
 			this.left = false;
@@ -160,6 +163,7 @@ class Player {
 			this.up = false;
 		}
 	}
+
 	stopDown() {
 		if (this.scrambled) {
 			this.up = false;
@@ -167,6 +171,7 @@ class Player {
 			this.down = false;
 		}
 	}
+
 	stopLeft() {
 		if (this.scrambled) {
 			this.right = false;
@@ -174,6 +179,7 @@ class Player {
 			this.left = false;
 		}
 	}
+
 	stopRight() {
 		if (this.scrambled) {
 			this.down = false;
@@ -181,6 +187,7 @@ class Player {
 			this.right = false;
 		}
 	}
+
 	speedUp() {
 		this.speed = 8;
 		this.skillIconElement.classList.remove('hidden');
@@ -191,6 +198,7 @@ class Player {
 			player.speed = 5;
 		}, 5000);
 	}
+
 	slowDown() {
 		this.speed = 2;
 		this.skillIconElement.classList.remove('hidden');
@@ -201,6 +209,7 @@ class Player {
 			player.speed = 5;
 		}, 5000);
 	}
+
 	scramble() {
 		this.scrambled = true;
 		this.left = false;
@@ -213,12 +222,14 @@ class Player {
 		this.scrambleTimeOut = setTimeout(function () {
 			player.skillIconElement.classList.add('hidden');
 			player.scrambled = false;
+			player.findTarget();
 			player.left = false;
 			player.right = false;
 			player.up = false;
 			player.down = false;
 		}, 2000);
 	}
+
 	startCoolDown() {
 		this.skillCoolDown = true;
 		this.skill1HtmlElement.src = "images/skill1CD.png";
@@ -235,6 +246,7 @@ class Player {
 			});
 		}, 1000);
 	}
+
 	endCoolDown() {
 		this.skillCoolDown = false;
 		this.skill1HtmlElement.src = "images/skill1.png";
@@ -249,8 +261,8 @@ class Player {
 			e.textContent = 10;
 		});
 	}
-	update() {
 
+	update() {
 		// Keep player on the map.
 		if (this.x < 0) this.x = 0;
 		if (this.y < 0) this.y = 0;
@@ -275,19 +287,20 @@ class Player {
 			this.endCoolDown();
 		}
 
-		// If this is an AI controlled player, handle it.
-		if ((this.gameMode === 'pvc' && this.name === 'player2') ||
-			(this.gameMode === 'cvp' && this.name === 'player1')) {
+		// If this is an AI controlled player, defer to AI.
+		if ((this.game.gameMode === 'pvc' && this.name === 'player2') ||
+			(this.game.gameMode === 'cvp' && this.name === 'player1')) {
 			this.makeAIDecision();
 		}
 
 		// Tell Grid where Player is now.
-		this.game.grid.handlePosition(this.gridX, this.gridY, this.type);
+		this.game.grid.updateCell(this.gridX, this.gridY, this.type);
 
 		// Update DOM element
 		this.htmlElement.style.left = this.x + "px";
 		this.htmlElement.style.top = this.y + "px";
 	}
+
 	makeAIDecision() {
 
 		// Use a skill if available and a few seconds have passed.
@@ -310,56 +323,12 @@ class Player {
 			}
 		}
 
-		// Has reached target and it's time to calculate a new target.
+		/* Has reached target and it's time to calculate a new target.
+			OR has no target and needs one */
 		if (!this.target ||
 			(this.currentCell[0] === this.target[0] &&
 			this.currentCell[1] === this.target[1])) {
-
-			// Get adjacent cells.
-			let adjacent = this.game.grid.adjacent(this.gridX, this.gridY);
-
-			// If this is a monster, check to see if any adjacent are grass.
-			if(this.type === 'monster') {
-				let player = this;
-				let foundGrass = false;
-				adjacent.forEach(function(e) {
-					if (player.game.grid.cells[e[0]][e[1]].type === 'grass') {
-						player.target = [e[0],e[1]];
-						foundGrass = true;					
-					}
-				});
-
-				if (!foundGrass) {
-					this.target[0] = this.game.player1.gridX;
-					this.target[1] = this.game.player1.gridY;
-				}
-			}
-
-			// If this is a player, check to see if any adjacent are empty.
-			if(this.type === 'hero') {
-				let player = this;
-				let foundEmpty = false;
-				adjacent.forEach(function(e) {
-					if (player.game.grid.cells[e[0]][e[1]].type === 'empty') {
-						player.target = [e[0],e[1]];
-						foundEmpty = true;						
-					}
-				});
-				// If no adjacent cells are empty, move randomly.
-				if (!foundEmpty) {
-					if (this.currentCell[0] === 0) { 
-						this.moveRight(); 
-					} else if (this.currentCell[0] === this.game.grid.widthInCells - 1) { 
-						this.moveLeft(); 
-					} else if (this.currentCell[1] === 0) {
-						this.moveDown();
-					} else if (this.currentCell[1] === this.game.grid.heightInCells - 1) {
-						this.moveUp();
-					} else {
-						this.moveRandom();
-					}
-				}
-			}
+			this.findTarget();
 		} else {
 			// Move left
 			if(this.currentCell[0] > this.target[0]) {
@@ -387,6 +356,54 @@ class Player {
 				this.moveUp();
 			} else {
 				this.stopUp();
+			}
+		}
+	}
+
+	findTarget() {
+		// Get adjacent cells.
+		let adjacent = this.game.grid.adjacent(this.gridX, this.gridY);
+
+		// If this is a monster, check to see if any adjacent are grass.
+		if(this.type === 'monster') {
+			let player = this;
+			let foundGrass = false;
+			adjacent.forEach(function(e) {
+				if (player.game.grid.cells[e[0]][e[1]].type === 'grass') {
+					player.target = [e[0],e[1]];
+					foundGrass = true;					
+				}
+			});
+
+			if (!foundGrass) {
+				this.target[0] = this.game.player1.gridX;
+				this.target[1] = this.game.player1.gridY;
+			}
+		}
+
+		// If this is a player, check to see if any adjacent are empty.
+		if(this.type === 'hero') {
+			let player = this;
+			let foundEmpty = false;
+			adjacent.forEach(function(e) {
+				if (player.game.grid.cells[e[0]][e[1]].type === 'empty') {
+					player.target = [e[0],e[1]];
+					foundEmpty = true;						
+				}
+			});
+			// If no adjacent cells are empty, move randomly.
+			if (!foundEmpty) {
+				if (this.currentCell[0] === 0) { 
+					this.moveRight(); 
+				} else if (this.currentCell[0] === this.game.grid.widthInCells - 1) { 
+					this.moveLeft(); 
+				} else if (this.currentCell[1] === 0) {
+					this.moveDown();
+				} else if (this.currentCell[1] === this.game.grid.heightInCells - 1) {
+					this.moveUp();
+				} else {
+					this.moveRandom();
+				}
 			}
 		}
 	}

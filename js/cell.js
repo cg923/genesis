@@ -14,6 +14,7 @@ class Cell {
 		let gridDOM = document.getElementById('grid');
 		gridDOM.appendChild(this.htmlElement);
 	}
+	
 	changeTypeTo(newType) {
 		this.type = newType;
 

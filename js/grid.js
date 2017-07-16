@@ -1,8 +1,7 @@
 
 class Grid {
 	constructor(game) {
-		// Back pointer.
-		// TO DO - I don't actually know if I need this.
+		// Back pointer to Game.
 		this.game = game;
 
 		this.widthInCells = 20;
@@ -31,6 +30,7 @@ class Grid {
 
 		this.populate();
 	}
+
 	populate() {
 		/* Populate this.cells with widthInCells (x)
 		 * by heightInCells(y) cells. */
@@ -46,6 +46,7 @@ class Grid {
 			this.cells[this.grassCells[i][0]][this.grassCells[i][1]].changeTypeTo('grass');
 		}
 	}
+
 	reset() {
 		// Clear cells.
 		for(let x = 1; x < this.widthInCells + 1; x++) {
@@ -59,22 +60,27 @@ class Grid {
 			this.cells[this.grassCells[i][0]][this.grassCells[i][1]].changeTypeTo('grass');
 		}
 
+		// Reset goal display.
 		this.fullCells = this.grassCells.length;
 		document.getElementById('goal-counter').innerText = "GOAL: " + this.fullCells + "/" + this.game.goalCells;
 	}
-	handlePosition(x, y, type) {
+
+	// This method is called when a player enters a new cell and adjusts it.
+	updateCell(x, y, playerType) {
+		// Check for invalid cell coordinates.
 		if(x < 0 || y < 0 || x > this.widthInCells - 1 || y > this.heightInCells - 1) return;
 
 		// If cell is empty and player type is Hero, make it grass.
-		if (type === 'hero') {
+		if (playerType === 'hero') {
 			if(this.cells[x][y].type === 'empty') this.fullCells++;
 			this.cells[x][y].changeTypeTo('grass');
-		} else if (type === 'monster') {
+		} else if (playerType === 'monster') {
 			if(this.cells[x][y].type === 'grass') this.fullCells--;
 			this.cells[x][y].changeTypeTo('empty');
 		}
 		document.getElementById('goal-counter').innerText = "GOAL: " + this.fullCells + "/" + this.game.goalCells;
 	}
+
 	adjacent(x, y) {
 		let cells = [];
 		for(let i = x - 1; i <= x + 1; i++) {
@@ -90,11 +96,8 @@ class Grid {
 
 		return cells;
 	}
+
 	cell(x, y) {
 		return this.cells[x][y];
-	}
-	firstEmpty() {
-	}
-	firstGrass() {
 	}
 }

@@ -14,11 +14,13 @@ class Game {
 		// Setup.
 		this.displayReadyMessage();
 	}
-	displayReadyMessage() {
-		let game = this;
+
+	displayReadyMessage() {        
 		let readyMessage = document.getElementById('ready-message');
 		let readyTimer = document.getElementById('ready-timer');
 		readyMessage.classList.remove('hidden');
+
+        let game = this;
 		this.readyInterval = setInterval(function() {
 			game.readyTime--;
 			readyTimer.innerText = game.readyTime;
@@ -32,6 +34,7 @@ class Game {
 			game.setup();
 		}, 3000);
 	}
+
 	setup() {
 		// Keeps track of Game Object;
 		let game = this;
@@ -186,9 +189,12 @@ class Game {
 		// Creates game loop which will fire every 50ms.
 		this.gameLoop = setInterval(this.run.bind(this), 50);
 	}
+
 	reset() {
+        // Stop the update loop.
 		this.running = false;
 
+        // Clear intervals.
 		if (this.gameLoop) {
 			clearInterval(this.gameLoop);
 		}
@@ -202,7 +208,7 @@ class Game {
 			return;
 		} 
 
-		// Reset players positions.
+		// Reset players.
 		this.player1.reset(7,6);
 		this.player2.reset(11,6);
 
@@ -212,8 +218,7 @@ class Game {
 		// Hide win message
 		document.getElementById('win-div').classList.add('hidden');
 
-
-		// Reset timer
+		// Reset and start timer
 		this.timeRemaining = GAMETIME;
 		this.timerInterval = setInterval(function() {
 			game.timeRemaining--;
@@ -223,6 +228,7 @@ class Game {
 		this.running = true;
 		this.gameLoop = setInterval(this.run.bind(this), 50);
 	}
+
 	run() {
 		// If the game has finished, halt game loop.
 		if(!this.running) {
@@ -233,13 +239,20 @@ class Game {
 		// Update.
 		this.update();
 	}
+
 	update() {
 		// Game is finished
 		if (this.timeRemaining === 0) {
+
+            // Stop the game loop.
+            this.running = false;
 			clearInterval(this.timerInterval);
+
+            // Stop player activities.
 			this.player1.endCoolDown();
 			this.player2.endCoolDown();
-			this.running = false;
+
+            // Decide and display who won.
 			if(this.grid.fullCells >= this.goalCells) {
 				document.getElementById('win-text').innerText = "Creation Wins!";
 			} else {
@@ -247,12 +260,16 @@ class Game {
 			}
 			document.getElementById('win-div').classList.remove('hidden');
 		}
+
+        // Update all entities.
 		this.entities.forEach(function(element) {
 			element.update();
 		})
 
+        // Update game clock display.
 		document.getElementById('game-clock').textContent = "TIME: " + this.timeRemaining;
 	}
+
 	otherPlayer(from) {
 		if (from === 'player1') {
 			return this.player2;
