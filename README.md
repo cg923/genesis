@@ -42,7 +42,7 @@ or suffers its punishment!</p>
 <ul>
 <li>If the AI was playing as Destruction, set its target to Creation's current cell.</li>
 <li>If the AI was playing as Creation, move "randomly" until it stumbled upon something</li>
-<ul>
+</ul>
 
 <p>Destruction's AI flow worked great.  It made sense to move toward Creation at any given time as Creation would, by nature of the game, have at least one valid Cell nearby for Destruction.</p>
 
