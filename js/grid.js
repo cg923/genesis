@@ -83,11 +83,6 @@ class Grid {
 
 	adjacent(x, y, netSize) {
 		let cells = [];
-		console.log(netSize);
-		/* netSize is based on the Centered Octagonal Number formula.
-		 * This formula allows us to calculate how many cells would surround a pre-existing
-		 * octagon of size n. */
-		//let castSize = ((2 * netSize) - 1)**2;
 		for(let i = x - netSize; i <= x + netSize; i++) {
 			for(let j = y - netSize; j <= y + netSize; j++) {
 				if(i >= 0 && 

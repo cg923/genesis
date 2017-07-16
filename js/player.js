@@ -92,100 +92,46 @@ class Player {
 	}
 
 	moveUp() {
-		// SCRAMBLED!
-		if (this.scrambled) {
-			//this.up = false;
-			this.left = true;
-		} else {
-			// Prevent moving in two directions at once.
-			this.left = false;
-			this.right = false;
+		// Prevent moving in two directions at once.
+		this.left = false;
+		this.right = false;
 
-			// Move up.
-			this.up = true;
-		}
+		// Move up.
+		this.up = true;
 	}
 
 	moveDown() {
-		if (this.scrambled) {
-			this.up = true;
-		} else {
-			this.left = false;
-			this.right = false;
-			this.down = true;
-		}
+		this.left = false;
+		this.right = false;
+		this.down = true;
 	}
 
 	moveLeft() {
-		if (this.scrambled) {
-			this.right = true;
-		} else {
-			this.up = false;
-			this.down = false;
-			this.left = true;
-		}
+		this.up = false;
+		this.down = false;
+		this.left = true;
 	}
 
 	moveRight() {
-		if (this.scrambled) {
-			this.down = true;
-		} else {
-			this.up = false;
-			this.down = false;
-			this.right = true;
-		}
-	}
-
-	moveRandom() {
-		let whichDirection = Math.floor(Math.random() * (4 - 1) + 1);
-		switch (whichDirection) {
-			case 1:
-				this.moveLeft();
-				break;
-			case 2:
-				this.moveRight();
-				break;
-			case 3:
-				this.moveUp();
-				break;
-			case 4:
-				this.moveDown();
-				break;
-			default:
-				console.log('Invalid direction calculated');
-		}
+		this.up = false;
+		this.down = false;
+		this.right = true;
 	}
 
 	stopUp() {
-		if (this.scrambled) {
-			this.left = false;
-		} else {
-			this.up = false;
-		}
+		this.up = false;
 	}
 
 	stopDown() {
-		if (this.scrambled) {
-			this.up = false;
-		} else {
-			this.down = false;
-		}
+		this.down = false;
 	}
 
 	stopLeft() {
-		if (this.scrambled) {
-			this.right = false;
-		} else {
-			this.left = false;
-		}
+		this.left = false;
 	}
 
 	stopRight() {
-		if (this.scrambled) {
-			this.down = false;
-		} else {
-			this.right = false;
-		}
+		this.right = false;
 	}
 
 	speedUp() {
@@ -211,6 +157,7 @@ class Player {
 	}
 
 	scramble() {
+		this.findTarget(5);
 		this.scrambled = true;
 		this.left = false;
 		this.right = false;
@@ -302,6 +249,7 @@ class Player {
 	}
 
 	makeAIDecision() {
+
 		// Use a skill if available and a few seconds have passed since the game began.
 		if (this.game.timeRemaining <= GAMETIME - 3 &&
 			!this.skillCoolDown) {
@@ -324,7 +272,8 @@ class Player {
 
 		/* If the player has reached its target or doesn't have one,
 		 * calculate one.  If it does have one, move towards it. */
-		if (!this.target ||
+		if (!this.scrambled &&
+			!this.target ||
 			(this.currentCell[0] === this.target[0] &&
 			this.currentCell[1] === this.target[1])) {
 			this.findTarget(1);
