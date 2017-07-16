@@ -1,7 +1,7 @@
 
 class Player {
 	constructor(name, x, y, type, game) {
-		// General variables.
+		// General variables
 		this.name = name;
 		this.type = type;
 		this.game = game;
