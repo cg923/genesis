@@ -1,4 +1,4 @@
-<h1>G E N E S I S : Project 1 Proposal</h1>
+<h1>G E N E S I S : Project 1</h1>
 
 <p>Genesis is a map creation game.  The map begins with a small plot of land, 
 and when Player 1 moves around, new land is created.  Player 2 (or the computer)
