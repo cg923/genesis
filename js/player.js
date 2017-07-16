@@ -12,7 +12,6 @@ class Player {
 		this.gridY = y;
 		this.currentCell = [x, y];
 		this.target = [x-1, y-1];
-		this.lastFourTargets = [];
 
 		// Actual (pixel) coords.
 		this.x = x * CELLSIZE;
@@ -364,69 +363,21 @@ class Player {
 		// Get adjacent cells.
 		let adjacent = this.game.grid.adjacent(this.gridX, this.gridY, netSize);
 		let valid = [];
-
-		// If this is a monster, check to see if any adjacent are grass.
-		if(this.type === 'monster') {
-			let player = this;
-			//let foundGrass = false;
-			adjacent.forEach(function(e) {
-				if (player.game.grid.cells[e[0]][e[1]].type === 'grass') {
-					valid.push(e);
-					/*
-					player.target = [e[0],e[1]];
-					foundGrass = true;*/			
-				}
-			});
-
-			// If no grass was found, just go chase the player.
-			//if (!foundGrass) {
-			if (valid.length === 0) {
-				this.findTarget(netSize + 1);
-				//this.target[0] = this.game.player1.gridX;
-				//this.target[1] = this.game.player1.gridY;
-			} else {
-				let whichCell = Math.floor(Math.random() * valid.length);
-				player.target = [valid[whichCell][0],valid[whichCell][1]];
+		let player = this;
+		adjacent.forEach(function(e) {
+			if ((player.type === 'monster' && player.game.grid.cells[e[0]][e[1]].type === 'grass') ||
+				(player.type === 'hero' && player.game.grid.cells[e[0]][e[1]].type === 'empty')) {
+				valid.push(e);			
 			}
-		}
+		});
 
-		// If this is a player, check to see if any adjacent are empty.
-		if(this.type === 'hero') {
-			let player = this;
-			let foundEmpty = false;
-
-			// Check adjacent cells for empties.
-			// TODO - too easy to trick AI into losing.
-			adjacent.forEach(function(e) {
-				if (player.game.grid.cells[e[0]][e[1]].type === 'empty') {
-					if (!player.lastFourTargets.includes([e[0],e[1]])) {
-						player.target = [e[0],e[1]];
-						foundEmpty = true;						
-						player.lastFourTargets.push(player.target);
-					}
-
-					if (player.lastFourTargets.length > 4) {
-						player.lastFourTargets.shift();
-					}
-				}
-			});
-
-			console.log(foundEmpty);
-
-			// If no adjacent cells are empty, move randomly.
-			if (!foundEmpty) {
-				if (this.currentCell[0] === 0) { 
-					this.moveRight(); 
-				} else if (this.currentCell[0] === this.game.grid.widthInCells - 1) { 
-					this.moveLeft(); 
-				} else if (this.currentCell[1] === 0) {
-					this.moveDown();
-				} else if (this.currentCell[1] === this.game.grid.heightInCells - 1) {
-					this.moveUp();
-				} else {
-					this.moveLeft();
-				}
-			}
+		// If no valid cell was found, cast a wider net.
+		if (valid.length === 0) {
+			this.findTarget(netSize + 1);
+		} else {
+			// Pick a valid cell at random to minimize repeat paths.
+			let whichCell = Math.floor(Math.random() * valid.length);
+			player.target = [valid[whichCell][0],valid[whichCell][1]];
 		}
 	}
 }
