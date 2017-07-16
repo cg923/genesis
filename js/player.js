@@ -157,7 +157,7 @@ class Player {
 	}
 
 	scramble() {
-		this.findTarget(5);
+		this.findTarget(5, true);
 		this.scrambled = true;
 		this.left = false;
 		this.right = false;
@@ -308,15 +308,22 @@ class Player {
 		}
 	}
 
-	findTarget(netSize) {
+	findTarget(netSize, scrambled = false) {
 		// Get adjacent cells.
 		let adjacent = this.game.grid.adjacent(this.gridX, this.gridY, netSize);
 		let valid = [];
 		let player = this;
 		adjacent.forEach(function(e) {
-			if ((player.type === 'monster' && player.game.grid.cells[e[0]][e[1]].type === 'grass') ||
-				(player.type === 'hero' && player.game.grid.cells[e[0]][e[1]].type === 'empty')) {
-				valid.push(e);			
+			if (!player.scrambled) {
+				if ((player.type === 'monster' && player.game.grid.cells[e[0]][e[1]].type === 'grass') ||
+					(player.type === 'hero' && player.game.grid.cells[e[0]][e[1]].type === 'empty')) {
+					valid.push(e);			
+				}
+			} else {
+				if ((player.type === 'monster' && player.game.grid.cells[e[0]][e[1]].type === 'empty') ||
+					(player.type === 'hero' && player.game.grid.cells[e[0]][e[1]].type === 'grass')) {
+					valid.push(e);			
+				}
 			}
 		});
 
