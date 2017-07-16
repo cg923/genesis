@@ -174,7 +174,7 @@ class Player {
 			player.right = false;
 			player.up = false;
 			player.down = false;
-		}, 2000);
+		}, 3000);
 	}
 
 	startCoolDown() {
