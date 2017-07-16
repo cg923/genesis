@@ -56,3 +56,11 @@ or suffers its punishment!</p>
 
 <p>These ideas fixed my problems completely.  Recursively casting a wider net guarantees that the AI will find a valid cell eventually, and much to my surprise, this iteration did not slow down the game at all.  Picking a target cell at random from the valid cells available meant Creation no longer fell into predictable patterns.  Perhaps the best part of all this is that the solution is far more elegant then setting up several complex rules to govern behavior.  It works better and takes less than half the code of my original "solution."</p>
 
+<h2>Ideas for further development</h2>
+
+<p>Given more time to work on Genesis, I would like to throw a few more kinks into the game.  A stretch goal that I did not have time to implement was the idea of having "bonuses" pop up randomly in the game area.  The first Player to reach the bonus would gain its effects for a short time.  For example, the Player might affect the surrounding 9 Cells instead of just 1, or teleport their opponent to the edge of the map, or freeze their opponent for a short time.</p>
+
+<p>It might be interesting to add additional game modes, such as one where instead of one large Destruction Player, have several small, slower moving Destructions that are gradually eating away at the map.</p>
+
+<p>I think it would also be interesting to have different terrain types that affect movement in some way.  Perhaps Creation could create different types of terrain purposefully, though I know not to what end.</p>
+
