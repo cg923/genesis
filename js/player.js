@@ -223,7 +223,7 @@ class Player {
 		this.scrambleTimeOut = setTimeout(function () {
 			player.skillIconElement.classList.add('hidden');
 			player.scrambled = false;
-			player.findTarget();
+			player.findTarget(1);
 			player.left = false;
 			player.right = false;
 			player.up = false;
@@ -328,7 +328,7 @@ class Player {
 		if (!this.target ||
 			(this.currentCell[0] === this.target[0] &&
 			this.currentCell[1] === this.target[1])) {
-			this.findTarget();
+			this.findTarget(1);
 		} else {
 			// Target is to the left.
 			if(this.currentCell[0] > this.target[0]) {
@@ -360,25 +360,33 @@ class Player {
 		}
 	}
 
-	findTarget() {
+	findTarget(netSize) {
 		// Get adjacent cells.
-		let adjacent = this.game.grid.adjacent(this.gridX, this.gridY);
+		let adjacent = this.game.grid.adjacent(this.gridX, this.gridY, netSize);
+		let valid = [];
 
 		// If this is a monster, check to see if any adjacent are grass.
 		if(this.type === 'monster') {
 			let player = this;
-			let foundGrass = false;
+			//let foundGrass = false;
 			adjacent.forEach(function(e) {
 				if (player.game.grid.cells[e[0]][e[1]].type === 'grass') {
+					valid.push(e);
+					/*
 					player.target = [e[0],e[1]];
-					foundGrass = true;					
+					foundGrass = true;*/			
 				}
 			});
 
 			// If no grass was found, just go chase the player.
-			if (!foundGrass) {
-				this.target[0] = this.game.player1.gridX;
-				this.target[1] = this.game.player1.gridY;
+			//if (!foundGrass) {
+			if (valid.length === 0) {
+				this.findTarget(netSize + 1);
+				//this.target[0] = this.game.player1.gridX;
+				//this.target[1] = this.game.player1.gridY;
+			} else {
+				let whichCell = Math.floor(Math.random() * valid.length);
+				player.target = [valid[whichCell][0],valid[whichCell][1]];
 			}
 		}
 

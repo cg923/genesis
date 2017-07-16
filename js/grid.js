@@ -81,10 +81,15 @@ class Grid {
 		document.getElementById('goal-counter').innerText = "GOAL: " + this.fullCells + "/" + this.game.goalCells;
 	}
 
-	adjacent(x, y) {
+	adjacent(x, y, netSize) {
 		let cells = [];
-		for(let i = x - 1; i <= x + 1; i++) {
-			for(let j = y - 1; j <= y + 1; j++) {
+		console.log(netSize);
+		/* netSize is based on the Centered Octagonal Number formula.
+		 * This formula allows us to calculate how many cells would surround a pre-existing
+		 * octagon of size n. */
+		//let castSize = ((2 * netSize) - 1)**2;
+		for(let i = x - netSize; i <= x + netSize; i++) {
+			for(let j = y - netSize; j <= y + netSize; j++) {
 				if(i >= 0 && 
 					j >= 0 &&
 					i <= this.widthInCells - 1 &&
