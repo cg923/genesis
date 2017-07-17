@@ -31,6 +31,18 @@ class Player {
 		this.slowDownTimeOut = null;
 		this.scrambleTimeOut = null;
 
+
+		// Am I AI?
+		if (this.game.gameMode === 'pvc' &&
+			this.type === 'monster') {
+			console.log('i am ai');
+			this.ai = true;
+		} else if (this.game.gameMode === 'cvp' &&
+			this.type === 'hero') {
+			this.ai = true;
+			console.log('i am ai');
+		}
+
 		// Relate this player to its skill DOM elements.
 		if (type === 'hero') {
 			this.skill1HtmlElement = document.getElementById('p1s1');
@@ -81,15 +93,6 @@ class Player {
 		this.down = false;
 		this.right = false;
 		this.left = false;
-
-		// Am I AI?
-		if (this.game.gameMode === 'pvc' &&
-			this.type === 'monster') {
-			this.ai = true;
-		} else if (this.game.gameMode = 'cvp' &&
-			this.type === 'hero') {
-			this.ai = true;
-		}
 
 		// Skills
 		this.endCoolDown();
