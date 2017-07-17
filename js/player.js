@@ -311,7 +311,7 @@ class Player {
 	}
 
 	findTarget(netSize, scrambled = false) {
-		// Get adjacent cells.
+		// Get adjacent cells
 		let adjacent = this.game.grid.adjacent(this.gridX, this.gridY, netSize);
 		let valid = [];
 		let player = this;
