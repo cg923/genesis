@@ -10,6 +10,7 @@ class Game {
 		this.timeRemaining = GAMETIME;
 		this.gameMode = gameMode;
 		this.readyTime = 3;
+		this.readyInterval = null;
 
 		// Setup.
 		this.displayReadyMessage();
