@@ -11,6 +11,14 @@ class Game {
 		this.gameMode = gameMode;
 		this.readyTime = 3;
 		this.readyInterval = null;
+		this.timerInterval = null;
+		this.gameLoop = null;
+
+		// Keeps track of moving entities in game.
+		this.entities = [];
+
+		// Create grid.
+		this.grid = new Grid(this, this.CELLSIZE);
 
 		// Setup.
 		this.displayReadyMessage();
@@ -40,17 +48,11 @@ class Game {
 		// Keeps track of Game Object;
 		let game = this;
 
-		// Keeps track of all Game entities.
-		this.entities = [];
-
 		// Player objects.
 		this.player1 = new Player('player1', 7, 6, 'hero', this);
 		this.entities.push(this.player1);
 		this.player2 = new Player('player2', 11, 6, 'monster', this);
 		this.entities.push(this.player2);
-
-		// Create grid.
-		this.grid = new Grid(this, this.CELLSIZE);
 
 		// Game timer
 		this.timerInterval = setInterval(function() {
