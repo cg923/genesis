@@ -219,10 +219,10 @@ class Player {
 		if (this.y > maxHeight) this.y = maxHeight;
 
 		// Update position based on key states.
-		if (this.up) 		this.y -= this.speed;
-		if (this.down) 		this.y += this.speed;
-		if (this.left) 		this.x -= this.speed;
-		if (this.right) 	this.x += this.speed;
+		if (this.up) 		{ this.y -= this.speed; }
+		if (this.down) 		{ this.y += this.speed; }
+		if (this.left) 		{ this.x -= this.speed; }
+		if (this.right) 	{ this.x += this.speed; }
 
 		// Update grid coords.
 		this.gridX = Math.floor((this.x + this.htmlElement.clientWidth / 2 ) / CELLSIZE);
@@ -276,6 +276,8 @@ class Player {
 			!this.target ||
 			(this.currentCell[0] === this.target[0] &&
 			this.currentCell[1] === this.target[1])) {
+			/* findTarget's argument is the netSize to cast.
+			 *	More info on this at Grid::adjacent() */
 			this.findTarget(1);
 		} else {
 			// Target is to the left.

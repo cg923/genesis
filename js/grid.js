@@ -101,7 +101,7 @@ class Grid {
 	 *
 	 */
 	adjacent(x, y, netSize) {
-		let cells = [];
+		let adjacent = [];
 		for(let i = x - netSize; i <= x + netSize; i++) {
 			for(let j = y - netSize; j <= y + netSize; j++) {
 				// Ensure that our net does not reach outside the bounds of the game.
@@ -109,11 +109,11 @@ class Grid {
 					j >= 0 &&
 					i <= this.widthInCells - 1 &&
 					j <= this.heightInCells - 1) {
-					cells.push([i,j]);
+					adjacent.push([i,j]);
 				}
 			}
 		}
 
-		return cells;
+		return adjacent;
 	}
 }

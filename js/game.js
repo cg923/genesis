@@ -198,7 +198,6 @@ class Game {
 			}
 		});
 
-
 		// Creates game loop which will fire every 50ms.
 		this.gameLoop = setInterval(this.run.bind(this), 50);
 	}
