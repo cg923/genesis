@@ -1,8 +1,8 @@
 
 class Skill {
-	static fire(name, player, opponent) {
+	static fire(skillName, player, opponent) {
 		if (player.skillCoolDown) return;
-		switch (name) {
+		switch (skillName) {
 			case 'speed':
 				player.speedUp();
 				player.startCoolDown();
