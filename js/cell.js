@@ -25,7 +25,7 @@ class Cell {
 
 			// If the cell above this is grass, make this a "below" tile.
 			if (this.y > 0 && this.grid.cell(this.x, this.y - 1).type === 'grass') {
-				this.htmlElement.style.background = "url('images/grassbottom.png')";
+				this.htmlElement.style.background = 'url(\'images/grassbottom.png\')';
 			} else {
 				this.htmlElement.style.background = 'black';
 			}
@@ -38,12 +38,12 @@ class Cell {
 		} else if (this.type === 'grass') {
 			this.htmlElement.classList.remove('empty');
 			this.htmlElement.classList.add('grass');
-			this.htmlElement.style.background = "url('images/grass.png')";
+			this.htmlElement.style.background = 'url(\'images/grass.png\')';
 
 			// Change cell below to a "below" tile.
 			if (this.y < this.grid.heightInCells -1 &&
 				this.grid.cell(this.x, this.y + 1).type === 'empty') {
-				this.grid.cell(this.x, this.y + 1).htmlElement.style.background = "url('images/grassbottom.png')";
+				this.grid.cell(this.x, this.y + 1).htmlElement.style.background = 'url(\'images/grassbottom.png\')';
 			}
 
 		} else {

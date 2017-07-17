@@ -58,9 +58,9 @@ class Player {
 		this.skillIconElement = document.createElement('div');
 		this.skillIconElement.classList.add('icon');
 		this.skillIconElement.classList.add('hidden');
-		this.skillIconElement.style.background = "url('images/speed.png')";
-		this.skillIconElement.style.top = "-40px";
-		this.skillIconElement.style.left = "0px";
+		this.skillIconElement.style.background = 'url(\'images/speed.png\')';
+		this.skillIconElement.style.top = '-40px';
+		this.skillIconElement.style.left = '0px';
 		this.htmlElement.appendChild(this.skillIconElement);
 	}
 
@@ -137,7 +137,7 @@ class Player {
 	speedUp() {
 		this.speed = 8;
 		this.skillIconElement.classList.remove('hidden');
-		this.skillIconElement.style.background = "url('images/speed.png')";
+		this.skillIconElement.style.background = 'url(\'images/speed.png\')';
 		let player = this;
 		this.speedUpTimeOut = setTimeout(function () {
 			player.skillIconElement.classList.add('hidden');
@@ -148,7 +148,7 @@ class Player {
 	slowDown() {
 		this.speed = 2;
 		this.skillIconElement.classList.remove('hidden');
-		this.skillIconElement.style.background = "url('images/slow.png')";
+		this.skillIconElement.style.background = 'url(\'images/slow.png\')';
 		let player = this;
 		this.slowDownTimeOut = setTimeout(function () {
 			player.skillIconElement.classList.add('hidden');
@@ -164,7 +164,7 @@ class Player {
 		this.up = false;
 		this.down = false;
 		this.skillIconElement.classList.remove('hidden');
-		this.skillIconElement.style.background = "url('images/scramble.png')";
+		this.skillIconElement.style.background = 'url(\'images/scramble.png\')';
 		let player = this;
 		this.scrambleTimeOut = setTimeout(function () {
 			player.skillIconElement.classList.add('hidden');
@@ -179,9 +179,9 @@ class Player {
 
 	startCoolDown() {
 		this.skillCoolDown = true;
-		this.skill1HtmlElement.src = "images/skill1CD.png";
-		this.skill2HtmlElement.src = "images/skill2CD.png";
-		this.skill3HtmlElement.src = "images/skill3CD.png";
+		this.skill1HtmlElement.src = 'images/skill1CD.png';
+		this.skill2HtmlElement.src = 'images/skill2CD.png';
+		this.skill3HtmlElement.src = 'images/skill3CD.png';
 
 		this.cooldownTimers.forEach(function(e) {
 			e.classList.remove('hidden');
@@ -196,9 +196,9 @@ class Player {
 
 	endCoolDown() {
 		this.skillCoolDown = false;
-		this.skill1HtmlElement.src = "images/skill1.png";
-		this.skill2HtmlElement.src = "images/skill2.png";
-		this.skill3HtmlElement.src = "images/skill3.png";
+		this.skill1HtmlElement.src = 'images/skill1.png';
+		this.skill2HtmlElement.src = 'images/skill2.png';
+		this.skill3HtmlElement.src = 'images/skill3.png';
 
 		clearInterval(this.coolDownInterval);
 		this.coolDownInterval = null;
@@ -244,8 +244,8 @@ class Player {
 		this.game.grid.updateCell(this.gridX, this.gridY, this.type);
 
 		// Update DOM element
-		this.htmlElement.style.left = this.x + "px";
-		this.htmlElement.style.top = this.y + "px";
+		this.htmlElement.style.left = this.x + 'px';
+		this.htmlElement.style.top = this.y + 'px';
 	}
 
 	makeAIDecision() {
