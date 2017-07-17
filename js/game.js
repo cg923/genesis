@@ -6,7 +6,6 @@ class Game {
 		// Variables.
 		this.self = this;
 		this.running = true;
-		this.goalCells = GOALCELLS;
 		this.timeRemaining = GAMETIME;
 		this.gameMode = gameMode;
 		this.readyTime = 3;
@@ -267,10 +266,12 @@ class Game {
 			this.player2.endCoolDown();
 
             // Decide and display who won.
-			if(this.grid.fullCells >= this.goalCells) {
+			if(this.grid.fullCells > this.grid.emptyCells) {
 				document.getElementById('win-text').innerText = 'Creation Wins!';
-			} else {
+			} else if (this.grid.fullCells < this.grid.emptyCells) {
 				document.getElementById('win-text').innerText = 'Destruction Wins!';
+			} else {
+				document.getElementById('win-text').innerText = 'It\'s a tie!';
 			}
 			document.getElementById('win-div').classList.remove('hidden');
 		}
