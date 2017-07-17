@@ -271,7 +271,7 @@ class Player {
 		// Use a skill if available and a few seconds have passed since the game began.
 		if (this.game.timeRemaining <= GAMETIME - 3 &&
 			!this.skillCoolDown) {
-			let whichSkill = Math.floor(Math.random() * (200 - 1) + 1);
+			let whichSkill = 3;//Math.floor(Math.random() * (200 - 1) + 1);
 			switch (whichSkill) {
 				case 1:
 					if (this.scrambled) { whichSkill = 2; }
