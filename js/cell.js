@@ -22,9 +22,11 @@ class Cell {
 		if (this.type === 'empty') {
 			this.htmlElement.classList.remove('grass');
 			this.htmlElement.classList.add('empty');
+			console.log('hi');
 
 			// If the cell above this is grass, make this a "below" tile.
-			if (this.y > 0 && this.grid.cells[this.x, this.y - 1].type === 'grass') {
+			if (this.y > 0 && this.grid.cells[this.x][this.y - 1].type === 'grass') {
+				console.log('hi there');
 				this.htmlElement.style.background = 'url(\'images/grassbottom.png\')';
 			} else {
 				this.htmlElement.style.background = 'black';
@@ -32,8 +34,8 @@ class Cell {
 
 			// Change cell below to a true-empty tile if not grass.
 			if (this.y < this.grid.heightInCells -1 &&
-				this.grid.cells[this.x, this.y + 1].type === 'empty') {
-				this.grid.cells[this.x, this.y + 1].htmlElement.style.background = 'black';
+				this.grid.cells[this.x][this.y + 1].type === 'empty') {
+				this.grid.cells[this.x][this.y + 1].htmlElement.style.background = 'black';
 			}
 		} else if (this.type === 'grass') {
 			this.htmlElement.classList.remove('empty');
@@ -42,8 +44,8 @@ class Cell {
 
 			// Change cell below to a "below" tile.
 			if (this.y < this.grid.heightInCells -1 &&
-				this.grid.cells[this.x, this.y + 1].type === 'empty') {
-				this.grid.cells[this.x, this.y + 1].htmlElement.style.background = 'url(\'images/grassbottom.png\')';
+				this.grid.cells[this.x][this.y + 1].type === 'empty') {
+				this.grid.cells[this.x][this.y + 1].htmlElement.style.background = 'url(\'images/grassbottom.png\')';
 			}
 
 		} else {
