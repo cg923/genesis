@@ -6,6 +6,7 @@ class Player {
 		this.type = type;
 		this.game = game;
 		this.speed = 5;
+		this.ai = false;
 
 		// Grid coords.
 		this.gridX = x;
@@ -81,6 +82,15 @@ class Player {
 		this.right = false;
 		this.left = false;
 
+		// Am I AI?
+		if (this.game.gameMode === 'pvc' &&
+			this.type === 'monster') {
+			this.ai = true;
+		} else if (this.game.gameMode = 'cvp' &&
+			this.type === 'hero') {
+			this.ai = true;
+		}
+
 		// Skills
 		this.endCoolDown();
 		this.speed = 5;
@@ -93,7 +103,7 @@ class Player {
 
 	moveUp() {
 		// SCRAMBLED!
-		if (this.scrambled) {
+		if (this.scrambled && !this.ai) {
 			//this.up = false;
 			this.left = true;
 		} else {
@@ -107,7 +117,7 @@ class Player {
 	}
 
 	moveDown() {
-		if (this.scrambled) {
+		if (this.scrambled && !this.ai) {
 			this.up = true;
 		} else {
 			this.left = false;
@@ -117,7 +127,7 @@ class Player {
 	}
 
 	moveLeft() {
-		if (this.scrambled) {
+		if (this.scrambled && !this.ai) {
 			this.right = true;
 		} else {
 			this.up = false;
@@ -127,7 +137,7 @@ class Player {
 	}
 
 	moveRight() {
-		if (this.scrambled) {
+		if (this.scrambled && !this.ai) {
 			this.down = true;
 		} else {
 			this.up = false;
