@@ -35,7 +35,6 @@ class Player {
 		// Am I AI?
 		if (this.game.gameMode === 'pvc' &&
 			this.type === 'monster') {
-			console.log('i am ai');
 			this.ai = true;
 		} else if (this.game.gameMode === 'cvp' &&
 			this.type === 'hero') {
@@ -150,19 +149,35 @@ class Player {
 	}
 
 	stopUp() {
-		this.up = false;
+		if (this.scrambled && !this.ai) {
+			this.left = false;
+		} else {
+			this.up = false;
+		}
 	}
 
 	stopDown() {
-		this.down = false;
+		if (this.scrambled && !this.ai) {
+			this.up = false;
+		} else {
+			this.down = false;
+		}
 	}
 
 	stopLeft() {
-		this.left = false;
+		if (this.scrambled && !this.ai) {
+			this.right = false;
+		} else {
+			this.left = false;
+		}
 	}
 
 	stopRight() {
-		this.right = false;
+		if (this.scrambled && !this.ai) {
+			this.down = false;
+		} else {
+			this.right = false;
+		}
 	}
 
 	speedUp() {
@@ -280,7 +295,6 @@ class Player {
 	}
 
 	makeAIDecision() {
-
 		// Use a skill if available and a few seconds have passed since the game began.
 		if (this.game.timeRemaining <= GAMETIME - 3 &&
 			!this.skillCoolDown) {
