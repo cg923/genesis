@@ -32,8 +32,8 @@ class Cell {
 
 			// Change cell below to a true-empty tile if not grass.
 			if (this.y < this.grid.heightInCells -1 &&
-				this.grid.cell(this.x, this.y + 1).type === 'empty') {
-				this.grid.cell(this.x, this.y + 1).htmlElement.style.background = 'black';
+				this.grid.cells[this.x, this.y + 1].type === 'empty') {
+				this.grid.cells[this.x, this.y + 1].htmlElement.style.background = 'black';
 			}
 		} else if (this.type === 'grass') {
 			this.htmlElement.classList.remove('empty');

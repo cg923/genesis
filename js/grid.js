@@ -116,8 +116,4 @@ class Grid {
 
 		return cells;
 	}
-
-	cell(x, y) {
-		return this.cells[x][y];
-	}
 }
