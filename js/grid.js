@@ -7,6 +7,9 @@ class Grid {
 		// TODO - these should be const somehow.
 		this.widthInCells = 20;
 		this.heightInCells = 15;
+		this.fullCells = 0;
+		this.emptyCells = 0;
+		this.totalCells = this.widthInCells * this.heightInCells;
 
 		// HTML element
 		this.htmlElement = document.getElementById('grid');
@@ -14,41 +17,28 @@ class Grid {
 		// A 2D array containing all game cells.
 		this.cells = [];
 
-		// Cells to set to "grass" for initial game state.
-		// Note: I think this looks goofy but ES6 style guide says do it.
-		this.grassCells = [
-							[8,5],
-							[9,5],
-							[10,5],
-							[7,6],
-							[8,6],
-							[9,6],
-							[10,6],
-							[11,6],
-							[8,7],
-							[9,7],
-							[10,7]
-						];
-
-		this.fullCells = this.grassCells.length;
-
 		this.populate();
 	}
 
 	populate() {
 		/* Populate this.cells with widthInCells (x)
 		 * by heightInCells(y) cells. */
-		for(let x = 1; x < this.widthInCells + 1; x++) {
-			this.cells[x-1] = [];
-			for(let y = 1; y < this.heightInCells + 1; y++) {
-				this.cells[x-1][y-1] = new Cell(x-1, y-1, this);
+		for(let x = 0; x < this.widthInCells; x++) {
+			this.cells[x] = [];
+			for(let y = 0; y < this.heightInCells; y++) {
+				this.cells[x][y] = new Cell(x, y, this);
 			}
 		}
 
-		// Create starting "Island"
-		for(let i = 0; i < this.grassCells.length; i++) {
-			this.cells[this.grassCells[i][0]][this.grassCells[i][1]].changeTypeTo('grass');
+		// Make half the grid grass
+		for(let x = 0; x < Math.floor(this.widthInCells / 2); x++) {
+				for(let y = 0; y < this.heightInCells; y++) {
+					this.cells[x][y].changeTypeTo('grass');
+					this.fullCells++;
+			}
 		}
+
+		this.emptyCells = this.totalCells - this.fullCells;
 	}
 
 	reset() {
@@ -59,17 +49,24 @@ class Grid {
 			}
 		}
 
-		// Reset grass cells.
-		for(let i = 0; i < this.grassCells.length; i++) {
-			this.cells[this.grassCells[i][0]][this.grassCells[i][1]].changeTypeTo('grass');
+		this.fullCells = 0;
+
+		// Make half the grid grass
+		for(let x = 0; x < Math.floor(this.widthInCells / 2); x++) {
+				for(let y = 0; y < this.heightInCells; y++) {
+					this.cells[x][y].changeTypeTo('grass');
+					this.fullCells++;
+			}
 		}
 
+		this.emptyCells = this.totalCells - this.fullCells;
+
 		// Reset goal display.
-		this.fullCells = this.grassCells.length;
-		document.getElementById('goal-counter').innerText = 'GOAL: ' + 
+		document.getElementById('goal-counter').innerText = 'Creation: ' + 
 															this.fullCells + 
 															'/' + 
-															this.game.goalCells;
+															this.emptyCells +
+															' :Destruction';
 	}
 
 	updateCell(x, y, playerType) {
@@ -86,10 +83,13 @@ class Grid {
 			this.cells[x][y].changeTypeTo('empty');
 		}
 
-		document.getElementById('goal-counter').innerText = 'GOAL: ' + 
+		this.emptyCells = this.totalCells - this.fullCells;
+
+		document.getElementById('goal-counter').innerText = 'Creation: ' + 
 															this.fullCells + 
-															'/' 
-															+ this.game.goalCells;
+															'/' + 
+															this.emptyCells +
+															' :Destruction';
 	}
 
 	/* Returns adjacent cells to Cell[x][y]. netSize can be adjusted to

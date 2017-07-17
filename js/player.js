@@ -35,7 +35,6 @@ class Player {
 		// Am I AI?
 		if (this.game.gameMode === 'pvc' &&
 			this.type === 'monster') {
-			console.log('i am ai');
 			this.ai = true;
 		} else if (this.game.gameMode === 'cvp' &&
 			this.type === 'hero') {
@@ -280,7 +279,6 @@ class Player {
 	}
 
 	makeAIDecision() {
-
 		// Use a skill if available and a few seconds have passed since the game began.
 		if (this.game.timeRemaining <= GAMETIME - 3 &&
 			!this.skillCoolDown) {

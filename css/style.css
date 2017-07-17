@@ -203,6 +203,8 @@ h2 {
 	border-top-left-radius: 10px;
 	border-top-right-radius: 10px;
 	bottom: 0px;
+	left: 15%;
+	width: 600px;
 }
 
 .win-condition {
