@@ -9,8 +9,8 @@ class Cell {
 		// Create HTML element and add it to the DOM.
 		this.htmlElement = document.createElement('div');
 		this.htmlElement.classList.add('cell');
-		this.htmlElement.style.left = (CELLSIZE * this.x) + "px";
-		this.htmlElement.style.top = (CELLSIZE * this.y) + "px";
+		this.htmlElement.style.left = (CELLSIZE * this.x) + 'px';
+		this.htmlElement.style.top = (CELLSIZE * this.y) + 'px';
 		let gridDOM = document.getElementById('grid');
 		gridDOM.appendChild(this.htmlElement);
 	}
@@ -27,13 +27,13 @@ class Cell {
 			if (this.y > 0 && this.grid.cell(this.x, this.y - 1).type === 'grass') {
 				this.htmlElement.style.background = "url('images/grassbottom.png')";
 			} else {
-				this.htmlElement.style.background = "black";
+				this.htmlElement.style.background = 'black';
 			}
 
 			// Change cell below to a true-empty tile if not grass.
 			if (this.y < this.grid.heightInCells -1 &&
 				this.grid.cell(this.x, this.y + 1).type === 'empty') {
-				this.grid.cell(this.x, this.y + 1).htmlElement.style.background = "black";
+				this.grid.cell(this.x, this.y + 1).htmlElement.style.background = 'black';
 			}
 		} else if (this.type === 'grass') {
 			this.htmlElement.classList.remove('empty');
@@ -47,7 +47,7 @@ class Cell {
 			}
 
 		} else {
-			console.log("invalid cell type!");
+			console.log('invalid cell type!');
 		}
 	}
 }

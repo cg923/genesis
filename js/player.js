@@ -45,13 +45,13 @@ class Player {
 
 		// DOM
 		this.htmlElement = document.getElementById(name);
-		this.htmlElement.style.left = this.x + "px";
-		this.htmlElement.style.top = this.y + "px";
+		this.htmlElement.style.left = this.x + 'px';
+		this.htmlElement.style.top = this.y + 'px';
 
 		if (this.type === 'hero') {
-			this.htmlElement.style.background = "url('images/player1.png')";
+			this.htmlElement.style.background = 'url(\'images/player1.png\')';
 		} else if (this.type === 'monster') {
-			this.htmlElement.style.background = "url('images/player2.png')";
+			this.htmlElement.style.background = 'url(\'images/player2.png\')';
 		}
 
 		// Current skill effect indicator

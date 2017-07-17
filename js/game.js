@@ -257,9 +257,9 @@ class Game {
 
             // Decide and display who won.
 			if(this.grid.fullCells >= this.goalCells) {
-				document.getElementById('win-text').innerText = "Creation Wins!";
+				document.getElementById('win-text').innerText = 'Creation Wins!';
 			} else {
-				document.getElementById('win-text').innerText = "Destruction Wins!";
+				document.getElementById('win-text').innerText = 'Destruction Wins!';
 			}
 			document.getElementById('win-div').classList.remove('hidden');
 		}
@@ -270,7 +270,7 @@ class Game {
 		})
 
         // Update game clock display.
-		document.getElementById('game-clock').textContent = "TIME: " + this.timeRemaining;
+		document.getElementById('game-clock').textContent = 'TIME: ' + this.timeRemaining;
 	}
 
 	otherPlayer(from) {

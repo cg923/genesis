@@ -14,7 +14,8 @@ class Grid {
 		this.cells = [];
 
 		// Cells to set to "grass" for initial game state.
-		this.grassCells = [[8,5],
+		this.grassCells = [
+							[8,5],
 							[9,5],
 							[10,5],
 							[7,6],
@@ -24,7 +25,8 @@ class Grid {
 							[11,6],
 							[8,7],
 							[9,7],
-							[10,7]];
+							[10,7]
+						];
 
 		this.fullCells = this.grassCells.length;
 
@@ -62,7 +64,7 @@ class Grid {
 
 		// Reset goal display.
 		this.fullCells = this.grassCells.length;
-		document.getElementById('goal-counter').innerText = "GOAL: " + this.fullCells + "/" + this.game.goalCells;
+		document.getElementById('goal-counter').innerText = 'GOAL: ' + this.fullCells + '/' + this.game.goalCells;
 	}
 
 	// This method is called when a player enters a new cell and adjusts it.
@@ -78,7 +80,7 @@ class Grid {
 			if(this.cells[x][y].type === 'grass') this.fullCells--;
 			this.cells[x][y].changeTypeTo('empty');
 		}
-		document.getElementById('goal-counter').innerText = "GOAL: " + this.fullCells + "/" + this.game.goalCells;
+		document.getElementById('goal-counter').innerText = 'GOAL: ' + this.fullCells + '/' + this.game.goalCells;
 	}
 
 	adjacent(x, y, netSize) {
