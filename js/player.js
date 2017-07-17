@@ -149,19 +149,35 @@ class Player {
 	}
 
 	stopUp() {
-		this.up = false;
+		if (this.scrambled && !this.ai) {
+			this.left = false;
+		} else {
+			this.up = false;
+		}
 	}
 
 	stopDown() {
-		this.down = false;
+		if (this.scrambled && !this.ai) {
+			this.up = false;
+		} else {
+			this.down = false;
+		}
 	}
 
 	stopLeft() {
-		this.left = false;
+		if (this.scrambled && !this.ai) {
+			this.right = false;
+		} else {
+			this.left = false;
+		}
 	}
 
 	stopRight() {
-		this.right = false;
+		if (this.scrambled && !this.ai) {
+			this.down = false;
+		} else {
+			this.right = false;
+		}
 	}
 
 	speedUp() {
