@@ -4,6 +4,7 @@ class Grid {
 		// Back pointer to Game.
 		this.game = game;
 
+		// TODO - these should be const somehow.
 		this.widthInCells = 20;
 		this.heightInCells = 15;
 
@@ -14,6 +15,7 @@ class Grid {
 		this.cells = [];
 
 		// Cells to set to "grass" for initial game state.
+		// Note: I think this looks goofy but ES6 style guide says do it.
 		this.grassCells = [
 							[8,5],
 							[9,5],
@@ -64,15 +66,18 @@ class Grid {
 
 		// Reset goal display.
 		this.fullCells = this.grassCells.length;
-		document.getElementById('goal-counter').innerText = 'GOAL: ' + this.fullCells + '/' + this.game.goalCells;
+		document.getElementById('goal-counter').innerText = 'GOAL: ' + 
+															this.fullCells + 
+															'/' + 
+															this.game.goalCells;
 	}
 
-	// This method is called when a player enters a new cell and adjusts it.
 	updateCell(x, y, playerType) {
 		// Check for invalid cell coordinates.
 		if(x < 0 || y < 0 || x > this.widthInCells - 1 || y > this.heightInCells - 1) return;
 
-		// If cell is empty and player type is Hero, make it grass.
+		/* If cell is empty and player type is Hero, make it grass.
+		 * If cell is grass and player is monster, make it empty. */
 		if (playerType === 'hero') {
 			if(this.cells[x][y].type === 'empty') this.fullCells++;
 			this.cells[x][y].changeTypeTo('grass');
@@ -80,13 +85,26 @@ class Grid {
 			if(this.cells[x][y].type === 'grass') this.fullCells--;
 			this.cells[x][y].changeTypeTo('empty');
 		}
-		document.getElementById('goal-counter').innerText = 'GOAL: ' + this.fullCells + '/' + this.game.goalCells;
+
+		document.getElementById('goal-counter').innerText = 'GOAL: ' + 
+															this.fullCells + 
+															'/' 
+															+ this.game.goalCells;
 	}
 
+	/* Returns adjacent cells to Cell[x][y]. netSize can be adjusted to
+	 * look at more cells.  In other words:
+	 *			___ ___ ___
+	 *		   |___|___|___|
+	 *		   |___|x,y|___|	This has a netSize of 1, because cell[x][y]
+	 *		   |___|___|___|	is surrounded on all sides by 1 cell.
+	 *
+	 */
 	adjacent(x, y, netSize) {
 		let cells = [];
 		for(let i = x - netSize; i <= x + netSize; i++) {
 			for(let j = y - netSize; j <= y + netSize; j++) {
+				// Ensure that our net does not reach outside the bounds of the game.
 				if(i >= 0 && 
 					j >= 0 &&
 					i <= this.widthInCells - 1 &&

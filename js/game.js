@@ -55,6 +55,10 @@ class Game {
 		this.entities.push(this.player2);
 
 		// Game timer
+		/* TODO - I do this many times throughout my code, where I have to set a variable
+		 * to keep track of game because setInterval changes what "this" points to.
+		 * I have seen/read of the "bind" function and I imagine that is the better
+		 * way to do this, and I should investigate that. */
 		this.timerInterval = setInterval(function() {
 			game.timeRemaining--;
 		}, 1000);
@@ -65,89 +69,95 @@ class Game {
 		});
 
 		// Key is pressed.
+		/* Note: 	'pvc' means player vs computer.
+		 *			'pvp' means player vs player.
+		 *			'cvp' means computer vs player.
+		 *			These acronyms describe, in a sense, which role the player
+		 *			has chosen, Creation always coming first and Destruction
+		 *			always coming second */
 		document.addEventListener('keydown', function(element) {
 			switch(element.key) {
 				case 'w':
 					if( game.gameMode === 'pvc' ||
-						game.gameMode === 'pvp') {
+					game.gameMode === 'pvp') {
 						game.player1.moveUp();
 					}
 					break;
 				case 'a':
 					if( game.gameMode === 'pvc' ||
-						game.gameMode === 'pvp') {
+					game.gameMode === 'pvp') {
 						game.player1.moveLeft();
 					}					
 					break;
 				case 's':
 					if( game.gameMode === 'pvc' ||
-						game.gameMode === 'pvp') {
+					game.gameMode === 'pvp') {
 						game.player1.moveDown();
 					}
 					break;
 				case 'd':
 					if( game.gameMode === 'pvc' ||
-						game.gameMode === 'pvp') {
+					game.gameMode === 'pvp') {
 						game.player1.moveRight();
 					}
 					break;
 				case 'i':
 					if( game.gameMode === 'pvp' ||
-						game.gameMode === 'cvp') {
+					game.gameMode === 'cvp') {
 						game.player2.moveUp();
 					}
 					break;
 				case 'j':
 					if( game.gameMode === 'pvp' ||
-						game.gameMode === 'cvp') {
+					game.gameMode === 'cvp') {
 						game.player2.moveLeft();
 					}
 					break;
 				case 'k':
 					if( game.gameMode === 'pvp' ||
-						game.gameMode === 'cvp') {
+					game.gameMode === 'cvp') {
 						game.player2.moveDown();
 					}
 					break;
 				case 'l':
 					if( game.gameMode === 'pvp' ||
-						game.gameMode === 'cvp') {
+					game.gameMode === 'cvp') {
 						game.player2.moveRight();
 					}
 					break;
 				case '1':
 					if( game.gameMode === 'pvc' ||
-						game.gameMode === 'pvp') {
+					game.gameMode === 'pvp') {
 						Skill.fire('speed', game.player1, game.player2);
 					}
 					break;
 				case '2':
 					if( game.gameMode === 'pvc' ||
-						game.gameMode === 'pvp') {
+					game.gameMode === 'pvp') {
 						Skill.fire('slow', game.player1, game.player2);
 					}
 					break;
 				case '3':
 					if( game.gameMode === 'pvc' ||
-						game.gameMode === 'pvp') {
+					game.gameMode === 'pvp') {
 						Skill.fire('scramble', game.player1, game.player2);
 					}
 					break;
 				case '8':
 					if( game.gameMode === 'pvp' ||
-						game.gameMode === 'cvp') {
+					game.gameMode === 'cvp') {
 						Skill.fire('speed', game.player2, game.player1);
 					}
 					break;
 				case '9':
 					if( game.gameMode === 'pvp' ||
-						game.gameMode === 'cvp') {
+					game.gameMode === 'cvp') {
 						Skill.fire('slow', game.player2, game.player1);
 					}
 					break;
 				case '0':
 					if( game.gameMode === 'pvp' ||
-						game.gameMode === 'cvp') {
+					game.gameMode === 'cvp') {
 						Skill.fire('scramble', game.player2, game.player1);
 					}
 					break;

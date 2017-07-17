@@ -24,7 +24,7 @@ class Cell {
 			this.htmlElement.classList.add('empty');
 
 			// If the cell above this is grass, make this a "below" tile.
-			if (this.y > 0 && this.grid.cell(this.x, this.y - 1).type === 'grass') {
+			if (this.y > 0 && this.grid.cells[this.x, this.y - 1].type === 'grass') {
 				this.htmlElement.style.background = 'url(\'images/grassbottom.png\')';
 			} else {
 				this.htmlElement.style.background = 'black';
