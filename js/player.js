@@ -92,30 +92,48 @@ class Player {
 	}
 
 	moveUp() {
-		// Prevent moving in two directions at once.
-		this.left = false;
-		this.right = false;
+		// SCRAMBLED!
+		if (this.scrambled) {
+			//this.up = false;
+			this.left = true;
+		} else {
+			// Prevent moving in two directions at once.
+			this.left = false;
+			this.right = false;
 
-		// Move up.
-		this.up = true;
+			// Move up.
+			this.up = true;
+		}
 	}
 
 	moveDown() {
-		this.left = false;
-		this.right = false;
-		this.down = true;
+		if (this.scrambled) {
+			this.up = true;
+		} else {
+			this.left = false;
+			this.right = false;
+			this.down = true;
+		}
 	}
 
 	moveLeft() {
-		this.up = false;
-		this.down = false;
-		this.left = true;
+		if (this.scrambled) {
+			this.right = true;
+		} else {
+			this.up = false;
+			this.down = false;
+			this.left = true;
+		}
 	}
 
 	moveRight() {
-		this.up = false;
-		this.down = false;
-		this.right = true;
+		if (this.scrambled) {
+			this.down = true;
+		} else {
+			this.up = false;
+			this.down = false;
+			this.right = true;
+		}
 	}
 
 	stopUp() {
