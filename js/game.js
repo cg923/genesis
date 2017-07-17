@@ -76,7 +76,8 @@ class Game {
 		 *			has chosen, Creation always coming first and Destruction
 		 *			always coming second */
 		document.addEventListener('keydown', function(element) {
-			switch(element.key) {
+			let lowElement = element.key.toLowerCase();
+			switch(lowElement) {
 				case 'w':
 					if( game.gameMode === 'pvc' ||
 					game.gameMode === 'pvp') {
@@ -168,7 +169,8 @@ class Game {
 
 		// Key is released.
 		document.addEventListener('keyup', function(element) {
-			switch(element.key) {
+			let lowElement = element.key.toLowerCase();
+			switch(lowElement) {
 				case 'w':
 					game.player1.stopUp();
 					break;
