@@ -1,6 +1,6 @@
 <h1>G E N E S I S : Project 1</h1>
 
-<a href="https://cg923.github.io/project-1">PLAY GENESIS</a>
+<a href="https://cg923.github.io/genesis">PLAY GENESIS</a>
 
 <p>Genesis is a map creation game.  The map begins with a small plot of land, 
 and when Player 1 moves around, new land is created.  Player 2 (or the computer)
